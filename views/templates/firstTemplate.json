@@ -1,0 +1,21 @@
+{
+    "template": {
+        "name": "First Template",
+        "filename": "firstTemplate",
+        "url": "./firstTemplate.hbs",
+        "fields": {
+            "headline": {
+                "id": 1,
+                "type": "text"
+            },
+            "body": {
+                "id": 2,
+                "type": "textarea"
+            },
+            "contact": {
+                "id": 3,
+                "type": "wysiwyg"
+            }
+        }
+    }
+}

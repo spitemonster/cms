@@ -1,0 +1,24 @@
+.field-card {
+    display: block;
+    height: auto;
+    background: lightgray;
+    border: 2px solid darkgrey;
+    padding: 1rem;
+    margin: 1rem 0;
+    width: 480px;
+
+    &__name {
+        display: block;
+        width: 100%;
+        background: none;
+        border: none;
+        border-bottom: 1px solid darkgrey;
+        font-size: 1.5rem;
+    }
+
+    &__meta {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+    }
+}
