@@ -1,0 +1,20 @@
+{
+  "name": "Homepage",
+  "id": "14462272-96a9-4421-b01e-9ea25f973a17",
+  "fields": [
+    {
+      "id": "0a832746-5817-42ac-9d6c-92086d4d07b6",
+      "name": "Title",
+      "type": "text",
+      "required": true
+    },
+    {
+      "id": "95dddada-11a7-46d1-8fb9-f7f568fa4c5a",
+      "name": "Body",
+      "type": "textarea",
+      "required": true
+    }
+  ],
+  "url": "/Users/kirbyjohnston/sites/cms/server/../views/templates/Homepage.hbs",
+  "createdAt": 1548281500465
+}

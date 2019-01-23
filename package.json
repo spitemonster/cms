@@ -5,20 +5,23 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack --watch",
+    "dev": " npm run sass | webpack --watch",
     "sass": "node-sass -w --output-style compressed ./resources/scss/ -o ./public/style",
-    "start": "npm run dev | npm run sass"
+    "serve": "nodemon server/server"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "fs": "0.0.1-security",
     "hbs": "^4.0.1",
     "markdown-it": "^8.4.2",
     "path": "^0.12.7",
+    "uuid": "^3.3.2",
     "vue": "^2.5.22",
+    "vue-router": "^3.0.2",
     "vuedraggable": "^2.17.0"
   },
   "devDependencies": {
