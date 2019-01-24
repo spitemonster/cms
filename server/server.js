@@ -62,10 +62,18 @@ app.get(`/admin`, (req, res) => {
   res.render(`panel.hbs`)
 })
 
-app.get('/templates', (req, res) => {
+app.get('/templates/', (req, res) => {
   let templates = fs.readFileSync(`${__dirname}/../views/templates/templateIndex.json`)
 
   res.send(templates)
+})
+
+app.get('/templates/:templateId', (req, res) => {
+  let templateId = req.params.templateId
+  let targetTemplate = JSON.parse(fs.readFileSync(`${__dirname}/../views/templates/templateIndex.json`)).templates[templateId]
+  let templateData = JSON.parse(fs.readFileSync(`${__dirname}/../views/templates/${targetTemplate.loc}/${targetTemplate.dataFileName}`))
+
+  res.send(templateData)
 })
 
 app.post(`/newpage`, (req, res) => {
@@ -108,16 +116,18 @@ app.post(`/create/template`, (req, res) => {
     let templateIndex = JSON.parse(fs.readFileSync(`${__dirname}/../views/templates/templateIndex.json`))
 
     let templateIndexData = {
-      id: templateData.id,
+      name: templateData.name,
       templateUrl: templateData.templateUrl,
+      templateFileName: `${templateFileName}.hbs`,
       dataUrl: templateData.dataUrl,
+      dataFileName: `${templateFileName}.json`,
       loc: templateData.loc,
       createdAt: templateData.createdAt,
       updatedAt: templateData.updatedAt,
       revisions: templateData.revisions
     }
 
-    templateIndex.templates[templateData.name] = templateIndexData
+    templateIndex.templates[templateData.id] = templateIndexData
 
     fs.writeFileSync(`${__dirname}/../views/templates/templateIndex.json`, JSON.stringify(templateIndex, undefined, 2), 'utf8')
     fs.writeFileSync(`${__dirname}/../views/templates/${templateFileName}/${templateFileName}.json`, JSON.stringify(templateData, undefined, 2), 'utf8')

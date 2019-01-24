@@ -1,7 +1,7 @@
 <template lang="html">
   <div>
     <h1>View Templates</h1>
-    <h3 v-for="template, k in templates"> {{ k }}</h3>
+    <h3 v-for="template, k in templates"> {{ template.name }}</h3>
   </div>
 </template>
 <script>
