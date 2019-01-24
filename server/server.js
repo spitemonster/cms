@@ -35,29 +35,6 @@ app.get(`/`, (req, res) => {
   })
 })
 
-// app.get(`/:page`, (req, res) => {
-//   let page = req.params.page
-
-//   if (page === `admin`) {
-//     return res.render('panel.hbs')
-//   } else {
-//     // console.log('running')
-//     let menu = JSON.parse(fs.readFileSync(`./views/menu.json`))
-
-//     fs.readFile(`./pages/${page}/${page}.md`, `utf8`, (err, data) => {
-//       if (err) {
-//         res.send(`There was an error.`)
-//       }
-
-//       let markdown = md.render(data)
-//       res.render(`page.hbs`, {
-//         content: markdown,
-//         menu: menu
-//       })
-//     })
-//   }
-// })
-
 app.get(`/admin`, (req, res) => {
   res.render(`panel.hbs`)
 })
@@ -135,6 +112,16 @@ app.post(`/create/template`, (req, res) => {
 
     res.status(200).send('a ok')
   })
+})
+
+app.post('/create/page', (req, res) => {
+  let pageData = req.body
+  let fileName = pageData.name.replace(/[^A-Z0-9]/ig, '_').toLowerCase()
+
+  fs.mkdirSync(`${__dirname}/../pages/${pageData.name}/`)
+
+  fs.writeFileSync(`${__dirname}/../pages/${pageData.name}/${fileName}.json`, JSON.stringify(pageData, undefined, 2), 'utf8')
+  res.status(200).send('a ok')
 })
 
 app.listen(PORT, () => {
