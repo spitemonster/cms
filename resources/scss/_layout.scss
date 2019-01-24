@@ -1,0 +1,125 @@
+%l {
+    display: flex;
+    flex-wrap: nowrap;
+
+    & > * {
+        flex: 1 1 auto;
+    }
+}
+
+[class^="l-"] {
+    @extend %l;
+}
+
+.l {
+
+    &-full {
+
+        & > * {
+            flex: 1 1 auto;
+        }
+    }
+
+    &-halves {
+        & > * {
+            width: 50%;
+        }
+    }
+
+    &-thirds {
+        & > * {
+            width: 33.33%;
+        }
+
+        &--one-two {
+            & > *:nth-child(1) {
+                width: 33.33%;
+            }
+
+            & > *:nth-child(2) {
+                width: 66.66%;
+            }
+        }
+
+        &--two-one {
+            & > *:nth-child(1) {
+                width: 66.66%;
+            }
+
+            & > *:nth-child(2) {
+                width: 33.33%;
+            }
+        }
+    }
+
+    &-quarters {
+        & > * {
+            width: 25%;
+        }
+
+        &--one-three {
+            & > *:nth-child(1) {
+                width: 25%;
+            }
+
+            & > *:nth-child(2) {
+                width: 75%;
+            }
+        }
+
+    }
+
+    &-auto {
+        flex: 1 1 auto;
+    }
+
+    &--1280 {
+            @media (max-width: 1279px) {
+                flex-wrap: wrap;
+
+                & > * {
+                    width: 100%;
+                }
+            }
+        }
+
+    &--1140 {
+        @media (max-width: 1139px) {
+            flex-wrap: wrap;
+
+            & > * {
+                width: 100%;
+            }
+        }
+    }
+
+    &--960 {
+        @media (max-width: 959px) {
+            flex-wrap: wrap;
+
+            & > * {
+                width: 100%;
+            }
+        }
+    }
+
+    &--640 {
+        @media (max-width: 639px) {
+            flex-wrap: wrap;
+
+            & > * {
+                width: 100%;
+            }
+        }
+    }
+
+    &--480 {
+        @media (max-width: 479px) {
+            flex-wrap: wrap;
+
+            & > * {
+                width: 100%;
+            }
+        }
+    }
+}

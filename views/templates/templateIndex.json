@@ -1,0 +1,22 @@
+{
+  "templates": {
+    "Homepage": {
+      "id": "58724ffb-5625-440c-979e-5a132fb1b05c",
+      "templateUrl": "/Users/kirbyjohnston/sites/cms/server/../views/templates/homepage/homepage.hbs",
+      "dataUrl": "/Users/kirbyjohnston/sites/cms/server/../views/templates/homepage/homepage.json",
+      "loc": "/homepage",
+      "createdAt": 1548352769661,
+      "updatedAt": 1548352769661,
+      "revisions": 0
+    },
+    "Interior Page": {
+      "id": "28062bd7-d110-418f-b932-71562158e0e6",
+      "templateUrl": "/Users/kirbyjohnston/sites/cms/server/../views/templates/interior_page/interior_page.hbs",
+      "dataUrl": "/Users/kirbyjohnston/sites/cms/server/../views/templates/interior_page/interior_page.json",
+      "loc": "/interior_page",
+      "createdAt": 1548354219300,
+      "updatedAt": 1548354219300,
+      "revisions": 0
+    }
+  }
+}

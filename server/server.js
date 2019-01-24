@@ -62,6 +62,12 @@ app.get(`/admin`, (req, res) => {
   res.render(`panel.hbs`)
 })
 
+app.get('/templates', (req, res) => {
+  let templates = fs.readFileSync(`${__dirname}/../views/templates/templateIndex.json`)
+
+  res.send(templates)
+})
+
 app.post(`/newpage`, (req, res) => {
   let pageName = req.body.pageName
   let headline = req.body.headline
@@ -76,35 +82,49 @@ app.post(`/newpage`, (req, res) => {
   res.redirect(`/${pageName}`)
 })
 
-app.post(`/template`, (req, res) => {
-  // console.log(req.body.name)
+app.post(`/create/template`, (req, res) => {
+  // get template data from submit, create folder for template files, update template index file, write template json and hbs template view file
+
   let templateData = req.body
-  let templateFieldData = Object.assign(templateData.fields)
 
-  let templateFileName = req.body.name.replace(/[^A-Z0-9]/ig, '_')
+  let templateFileName = req.body.name.replace(/[^A-Z0-9]/ig, '_').toLowerCase()
 
-  // commented out lines below are for the (eventual) overwrite/revision system that I have not put in place because as of right now, not entirely certain how i want to do it.
-  // TODO: implement overwrite/revision system. ideal scenario:
-  // user edits template -> option for overwrite/revision -> overwrite just writes over template JSON file
+  fs.mkdirSync(`${__dirname}/../views/templates/${templateFileName}`)
 
-  // fs.access(`${__dirname}/../views/templates/${templateFileName}.json`, (err) => {
-    // if (!err) {
-    //   return console.log('file exists')
-    // }
+  templateData.templateUrl = `${__dirname}/../views/templates/${templateFileName}/${templateFileName}.hbs`
+  templateData.dataUrl = `${__dirname}/../views/templates/${templateFileName}/${templateFileName}.json`
+  templateData.loc = `/${templateFileName}`
+  templateData.createdAt = Date.now()
+  templateData.updatedAt = templateData.createdAt
+  templateData.revisions = 0
 
-  fs.writeFile(`${__dirname}/../views/templates/${templateFileName}.hbs`, '', 'utf8', (err) => {
+  fs.access(`${__dirname}/../views/templates/templateIndex.json`, (err) => {
     if (err) {
-        // do something
+      let o = {
+        templates: {}
+      }
+      fs.writeFileSync(`${__dirname}/../views/templates/templateIndex.json`, JSON.stringify(o), 'utf8')
+    }
+    let templateIndex = JSON.parse(fs.readFileSync(`${__dirname}/../views/templates/templateIndex.json`))
+
+    let templateIndexData = {
+      id: templateData.id,
+      templateUrl: templateData.templateUrl,
+      dataUrl: templateData.dataUrl,
+      loc: templateData.loc,
+      createdAt: templateData.createdAt,
+      updatedAt: templateData.updatedAt,
+      revisions: templateData.revisions
     }
 
-    templateData.url = `${__dirname}/../views/templates/${templateFileName}.hbs`
-    templateData.createdAt = Date.now()
+    templateIndex.templates[templateData.name] = templateIndexData
 
-    fs.writeFileSync(`${__dirname}/../views/templates/${templateFileName}.json`, JSON.stringify(templateData, undefined, 2), 'utf8')
+    fs.writeFileSync(`${__dirname}/../views/templates/templateIndex.json`, JSON.stringify(templateIndex, undefined, 2), 'utf8')
+    fs.writeFileSync(`${__dirname}/../views/templates/${templateFileName}/${templateFileName}.json`, JSON.stringify(templateData, undefined, 2), 'utf8')
+    fs.writeFileSync(`${__dirname}/../views/templates/${templateFileName}/${templateFileName}.hbs`, '', 'utf8')
+
+    res.status(200).send('a ok')
   })
-
-  res.status(200).send('a ok')
-  // })
 })
 
 app.listen(PORT, () => {

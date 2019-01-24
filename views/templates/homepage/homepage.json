@@ -1,0 +1,24 @@
+{
+  "name": "Homepage",
+  "id": "58724ffb-5625-440c-979e-5a132fb1b05c",
+  "fields": [
+    {
+      "id": "ccae8877-450e-4ab8-a21c-ec7a43f52714",
+      "name": "Title",
+      "type": "text",
+      "required": true
+    },
+    {
+      "id": "809ba0e5-cb94-4d17-ab68-6e9b5aeb884e",
+      "name": "Body",
+      "type": "textarea",
+      "required": true
+    }
+  ],
+  "templateUrl": "/Users/kirbyjohnston/sites/cms/server/../views/templates/homepage/homepage.hbs",
+  "dataUrl": "/Users/kirbyjohnston/sites/cms/server/../views/templates/homepage/homepage.json",
+  "loc": "/homepage",
+  "createdAt": 1548352769661,
+  "updatedAt": 1548352769661,
+  "revisions": 0
+}

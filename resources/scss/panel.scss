@@ -1,1 +1,35 @@
 @import 'field-card';
+
+.dashboard {
+    display: flex;
+    height: 100%;
+    position: relative;
+
+    &__nav {
+        display: block;
+        height: 100%;
+        width: 300px;
+        background: rgba(22,22,22,1);
+        left: 0;
+        top: 0;
+
+        ul {
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            color: rgba(222,222,222, 1);
+        }
+    }
+
+    &__body {
+        display: block;
+        flex-grow: 1;
+        height: 100%;
+        width: auto;
+        background: rgba(222,222,222,1);
+        left: 300px;
+        top: 0;
+    }
+}

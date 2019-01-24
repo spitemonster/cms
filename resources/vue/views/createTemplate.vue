@@ -15,14 +15,13 @@
     </main>
 </template>
 <script>
-    import fieldCard from './fieldCard.vue'
+    import fieldCard from '../components/fieldCard.vue'
     import draggable from 'vuedraggable'
     import Bus from '../../scripts/admin.js'
     import uuidv4 from 'uuid/v4'
     import axios from 'axios'
 
     export default {
-      name: 'Create Template',
       data () {
         return {
           fields: []
@@ -55,7 +54,7 @@
 
           // let data = JSON.stringify(template)
 
-          axios.post('/template', template, headers)
+          axios.post('/create/template', template, headers)
             .then((res) => {
               console.log(res)
             })

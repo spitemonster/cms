@@ -1,11 +1,33 @@
 <template lang="html">
-    <main>
-      <router-view></router-view>
+    <main class="dashboard">
+      <nav class="dashboard__nav">
+          <ul>
+              <router-link tag="li" to="/">
+                <a>Dashboard</a>
+              </router-link>
+              <router-link tag="li" to="/create/template">
+                <a>Create New Template</a>
+              </router-link>
+              <router-link tag="li" to="/create/page">
+                <a>Create New Page</a>
+              </router-link>
+              <router-link tag="li" to="/view/templates">
+                <a>View Templates</a>
+              </router-link>
+              <router-link tag="li" to="/view/pages">
+                <a>View Pages</a>
+              </router-link>
+          </ul>
+      </nav>
+      <div class="dashboard__body l-auto">
+        <router-view></router-view>
+      </div>
     </main>
 </template>
 <script>
     import fieldCard from './components/fieldCard.vue'
-    import createTemplate from './components/createTemplate.vue'
+    import createTemplate from './views/createTemplate.vue'
+    import createPage from './views/createPage.vue'
     import draggable from 'vuedraggable'
     import Bus from '../scripts/admin.js'
     import router from '../scripts/admin.js'
@@ -22,6 +44,7 @@
       components: {
         fieldCard,
         createTemplate,
+        createPage,
         draggable,
         router
       },
