@@ -24,7 +24,7 @@
         beforeCreate () {
             axios.get('/template')
           .then((res) => {
-              this.templates = res.data.templates
+              this.templates = res.data
           })
         }
     }

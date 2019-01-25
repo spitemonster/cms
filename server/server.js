@@ -14,6 +14,7 @@ let PORT = process.env.PORT ? process.env.PORT : 8888
 
 let page = require('./routes/page.js')
 let template = require('./routes/template.js')
+let admin = require('./routes/admin.js')
 
 hbs.registerPartials(`./views/partials/`)
 server.set('view engine', 'hbs')
@@ -24,41 +25,49 @@ server.use(express.urlencoded({ extended: false }))
 
 server.use('/page', page)
 server.use('/template', template)
+server.use('/admin', admin)
 
-//
 
-server.get(`/`, (req, res) => {
-    let menu = JSON.parse(fs.readFileSync(`./views/menu.json`))
 
-    let file = fs.readFile(`./pages/home/home.md`, `utf8`, (err, data) => {
-        if (err) {
-            res.send(`There was an error.`)
+server.get(`/:slug?`, (req, res) => {
+    let pageIndex = JSON.parse(fs.readFileSync(`${__dirname}/../pages/pageIndex.json`)).pages
+    let slug = req.params.slug
+
+    if (typeof slug === 'undefined') {
+        for (let page in pageIndex) {
+            let p = pageIndex[page]
+
+            if (p.url === '/') {
+                let pageData = JSON.parse(fs.readFileSync(`${__dirname}/../pages/${p.filename}/${p.filename}.json`))
+
+                let pd = {}
+
+                pageData.fields.forEach((field) => {
+                    pd[field.name.toLowerCase()] = field
+                })
+
+                return res.render(pageData.templateUrl, { pd })
+            }
         }
+    }
 
-        let markdown = md.render(data)
-        res.render(`home.hbs`, {
-            content: markdown,
-            menu: menu
-        })
-    })
-})
+    for (let page in pageIndex) {
+        let p = pageIndex[page]
 
-server.get(`/admin`, (req, res) => {
-    res.render(`panel.hbs`)
-})
+        if (p.url === `/${slug}`) {
+            let pageData = JSON.parse(fs.readFileSync(`${__dirname}/../pages/${p.filename}/${p.filename}.json`))
 
-server.get('/templates/', (req, res) => {
-    let templates = fs.readFileSync(`${__dirname}/../views/templates/templateIndex.json`)
+            let pd = {}
 
-    res.send(templates)
-})
+            pageData.fields.forEach((field) => {
+                pd[field.name.toLowerCase()] = field
+            })
 
-server.get('/templates/:templateId', (req, res) => {
-    let templateId = req.params.templateId
-    let targetTemplate = JSON.parse(fs.readFileSync(`${__dirname}/../views/templates/templateIndex.json`)).templates[templateId]
-    let templateData = JSON.parse(fs.readFileSync(`${__dirname}/../views/templates/${targetTemplate.loc}/${targetTemplate.dataFileName}`))
+            return res.render(pageData.templateUrl, { pd })
+        }
+    }
 
-    res.send(templateData)
+    console.log('hella params')
 })
 
 server.listen(PORT, () => {

@@ -53,6 +53,8 @@ router.post('/', (req, res) => {
     // add some data to both pageData and pageMeta...this will probably change over time
     pageData.filename = pageMeta.filename = pageData.name.replace(/[^A-Z0-9]/ig, '_').toLowerCase()
     pageMeta.name = pageData.name
+    pageMeta.url = pageData.url
+    pageMeta.templateUrl = pageData.templateUrl
 
     fs.access(`${__dirname}/../../pages/pageIndex.json`, (err) => {
         if (err) {

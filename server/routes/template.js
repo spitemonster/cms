@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 
         if (err) {
             let z = { templates: {} }
-            fs.writeFileSync(`${__dirname}/../views/templates/templateIndex.json`, JSON.stringify(z, undefined, 2), 'utf8')
+            fs.writeFileSync(`${__dirname}/../../views/templates/templateIndex.json`, JSON.stringify(z, undefined, 2), 'utf8')
         }
 
         templateIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../views/templates/templateIndex.json`)).templates
@@ -23,7 +23,11 @@ router.get('/', (req, res) => {
         } else if (ql === 1) {
             for (let template in templateIndex) {
                 if (templateIndex[template][qs].toUpperCase() == q[qs].toUpperCase()) {
-                    res.status(200).json(templateIndex[template])
+                    let td = templateIndex[template]
+
+                    let templateData = JSON.parse(fs.readFileSync(td.dataUrl))
+
+                    res.status(200).json(templateData)
                 }
             }
         } else if (ql > 1) {

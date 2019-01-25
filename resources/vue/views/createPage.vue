@@ -2,6 +2,7 @@
     <div>
         <h1>Create Page</h1>
         <input type="text" id="pageName" @change="testPageName">
+        <input type="text" id="pageUrl" @change="testPageUrl">
         <select id="template" @change="selectTemplate">
             <option value="">Choose Template</option>
             <option v-for="template, k in templates" :value="k">{{ template.name }}</option>
@@ -26,24 +27,28 @@
         data () {
             return {
                 templates: {},
-                fields: []
+                fields: [],
+                selectedTemplate: {}
             }
         },
         props: [],
         methods: {
             selectTemplate () {
-                let sel = document.querySelector('#template')
+                let sel = document.querySelector('#template').value
+
                 if (sel.value !== '') {
-                    axios.get(`/templates/${sel.value}`)
-            .then((data) => {
-                this.fields = data.data.fields
-                this.fields.forEach((field) => {
-                    console.log(field.id)
-                })
-            })
+                    axios.get(`/template?id=${sel}`)
+                        .then((data) => {
+                            this.fields = data.data.fields
+                            this.selectedTemplate = data.data
+                            console.log(this.selectedTemplate)
+                        })
                 }
             },
             testPageName () {
+
+            },
+            testPageUrl () {
 
             },
             createPage () {
@@ -51,10 +56,12 @@
 
                 let pageData = {}
                 pageData.name = document.querySelector('#pageName').value
+                pageData.url = document.querySelector('#pageUrl').value
                 pageData.template = document.querySelector('#template').value
+                pageData.templateUrl = this.selectedTemplate.templateUrl
                 pageData.fields = this.fields
 
-                console.log(pageData)
+                console.log(pageData.templateUrl)
 
                 axios.post('/page', pageData, headers)
                 .then((res) => {
@@ -66,9 +73,9 @@
             inputField
         },
         beforeCreate () {
-            axios.get('/templates')
+            axios.get('/template')
           .then((res) => {
-              this.templates = res.data.templates
+              this.templates = res.data
           })
         },
         mounted () {

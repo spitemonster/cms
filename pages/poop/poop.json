@@ -1,9 +1,9 @@
 {
-  "id": "d5dc9604-75a4-4863-991e-84070dd2a9ff",
-  "updatedAt": 1548449932678,
-  "createdAt": 1548449932678,
-  "name": "Home",
-  "url": "/",
+  "id": "070d69a2-e878-4a03-8ea8-991a0cc16719",
+  "updatedAt": 1548452395240,
+  "createdAt": 1548452395240,
+  "name": "Poop",
+  "url": "/poop",
   "template": "75588dd6-7c64-40e7-b68b-6e91f67f9e13",
   "templateUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/home_page/home_page.hbs",
   "fields": [
@@ -12,15 +12,15 @@
       "name": "Title",
       "type": "text",
       "required": true,
-      "content": "Home"
+      "content": "Poop"
     },
     {
       "id": "1c9faa2e-e81e-4084-b1b9-2806abbce5c4",
       "name": "Body",
       "type": "textarea",
       "required": true,
-      "content": "Lorem ipsum dolar sit amet"
+      "content": "pooop"
     }
   ],
-  "filename": "home"
+  "filename": "poop"
 }
