@@ -1,6 +1,7 @@
 const uuidv4 = require('uuid/v4')
 const express = require(`express`)
 const fs = require(`fs`)
+const rimraf = require(`rimraf`)
 
 let router = express.Router()
 
@@ -17,7 +18,7 @@ router.get('/', (req, res) => {
             return res.status(400).send('No pages exist')
         }
 
-        pageIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../pages/pageIndex.json`)).pages
+        pageIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../pages/pageIndex.json`))
 
         if (ql === 0) {
             return res.status(200).json(pageIndex)
@@ -55,6 +56,11 @@ router.post('/', (req, res) => {
     pageMeta.name = pageData.name
     pageMeta.url = pageData.url
     pageMeta.templateUrl = pageData.templateUrl
+    pageMeta.templateId = pageData.templateId
+
+    let templateIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../views/templates/templateIndex.json`))
+
+    templateIndex[pageData.templateId].pages.push(pageData.id)
 
     fs.access(`${__dirname}/../../pages/pageIndex.json`, (err) => {
         if (err) {
@@ -67,14 +73,36 @@ router.post('/', (req, res) => {
         }
 
         let pageIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../pages/pageIndex.json`))
-        pageIndex.pages[pageData.id] = pageMeta
+        pageIndex[pageData.id] = {...pageMeta}
 
         fs.writeFileSync(`${__dirname}/../../pages/pageIndex.json`, JSON.stringify(pageIndex, undefined, 2), 'utf8')
         fs.mkdirSync(`${__dirname}/../../pages/${pageData.filename}`)
+        fs.writeFileSync(`${__dirname}/../../views/templates/templateIndex.json`, JSON.stringify(templateIndex, undefined, 2), 'utf8')
         fs.writeFileSync(`${__dirname}/../../pages/${pageData.filename}/${pageData.filename}.json`, JSON.stringify(pageData, undefined, 2), 'utf8')
     })
 
     res.status(200).send('Post Received')
+})
+
+router.delete('/:pageId', (req, res) => {
+    let pageId = req.params.pageId
+
+    let pageIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../pages/pageIndex.json`))
+    let templateIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../views/templates/templateIndex.json`))
+
+    let targetTemplate = pageIndex[pageId].templateId
+
+    console.log(templateIndex[targetTemplate].pages.indexOf(pageId))
+
+    templateIndex[targetTemplate].pages.splice(templateIndex[targetTemplate].pages.indexOf(pageId), 1)
+
+    rimraf(`${__dirname}/../../pages/${pageIndex[pageId].filename}`, () => {
+        delete pageIndex[pageId]
+        fs.writeFileSync(`${__dirname}/../../views/templates/templateIndex.json`, JSON.stringify(templateIndex, undefined, 2), 'utf8')
+        fs.writeFileSync(`${__dirname}/../../pages/pageIndex.json`, JSON.stringify(pageIndex, undefined, 2), 'utf8')
+    })
+
+    res.status(200).send('Deleted')
 })
 
 module.exports = router

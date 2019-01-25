@@ -54,18 +54,21 @@
             createPage () {
                 let headers = { 'Content-Type': 'application/json' }
 
+
                 let pageData = {}
                 pageData.name = document.querySelector('#pageName').value
                 pageData.url = document.querySelector('#pageUrl').value
                 pageData.template = document.querySelector('#template').value
                 pageData.templateUrl = this.selectedTemplate.templateUrl
+                pageData.templateId = this.selectedTemplate.id
                 pageData.fields = this.fields
 
                 console.log(pageData.templateUrl)
+                console.log(this.selectedTemplate.id)
 
                 axios.post('/page', pageData, headers)
                 .then((res) => {
-                    console.log('res')
+                    console.log(res)
                 })
             }
         },

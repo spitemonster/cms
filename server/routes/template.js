@@ -1,6 +1,7 @@
 const uuidv4 = require('uuid/v4')
 const express = require(`express`)
 const fs = require(`fs`)
+const rimraf = require('rimraf')
 
 let router = express.Router()
 
@@ -12,11 +13,11 @@ router.get('/', (req, res) => {
         let qs = Object.keys(q)
 
         if (err) {
-            let z = { templates: {} }
+            let z = {}
             fs.writeFileSync(`${__dirname}/../../views/templates/templateIndex.json`, JSON.stringify(z, undefined, 2), 'utf8')
         }
 
-        templateIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../views/templates/templateIndex.json`)).templates
+        templateIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../views/templates/templateIndex.json`))
 
         if (ql === 0) {
             return res.status(200).json(templateIndex)
@@ -55,9 +56,7 @@ router.post('/', (req, res) => {
 
     fs.access(`${__dirname}/../../views/templates/templateIndex.json`, (err) => {
         if (err) {
-            let o = {
-                templates: {}
-            }
+            let o = {}
             fs.writeFileSync(`${__dirname}/../../views/templates/templateIndex.json`, JSON.stringify(o), 'utf8')
         }
         let templateIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../views/templates/templateIndex.json`))
@@ -72,10 +71,11 @@ router.post('/', (req, res) => {
             loc: templateData.loc,
             createdAt: templateData.createdAt,
             updatedAt: templateData.updatedAt,
-            revisions: templateData.revisions
+            revisions: templateData.revisions,
+            pages: []
         }
 
-        templateIndex.templates[templateData.id] = templateIndexData
+        templateIndex[templateData.id] = templateIndexData
 
         fs.writeFileSync(`${__dirname}/../../views/templates/templateIndex.json`, JSON.stringify(templateIndex, undefined, 2), 'utf8')
         fs.writeFileSync(`${__dirname}/../../views/templates/${templateFileName}/${templateFileName}.json`, JSON.stringify(templateData, undefined, 2), 'utf8')
@@ -83,6 +83,35 @@ router.post('/', (req, res) => {
 
         res.status(200).send('a ok')
     })
+})
+
+router.put('/', (req, res) => {
+    res.status(200).send('delete this template')
+})
+
+router.delete('/:templateId', (req, res) => {
+    let templateId = req.params.templateId
+    let templateIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../views/templates/templateIndex.json`))
+    let piu = templateIndex[templateId].pages.length
+    let sent
+
+    if ( piu > 0) {
+        if (piu === 1) {
+            sent = `There is currently ${piu} page`
+        } else {
+            sent = `There are currently ${piu} pages`
+        }
+
+        res.status(403).send(`${sent} using this template. Please delete or archive those pages first.`)
+    } else {
+        rimraf(`${__dirname}/../../views/templates/${templateIndex[templateId].filename}`, () => {
+            delete templateIndex[templateId]
+
+            fs.writeFileSync(`${__dirname}/../../views/templates/templateIndex.json`, JSON.stringify(templateIndex, undefined, 2), 'utf8')
+
+            res.status(200).send('Deleted')
+        })
+    }
 })
 
 module.exports = router

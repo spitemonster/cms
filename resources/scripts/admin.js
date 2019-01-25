@@ -23,21 +23,22 @@ Vue.use(Router)
 const test = { template: '<div>foo</div>' }
 
 const router = new Router({
-  routes: [
-        { path: '/', component: dashboard },
-        { path: '/create/template', component: createTemplate },
-        { path: '/create/page', component: createPage },
-        { path: '/view/pages', component: viewPages },
-        { path: '/view/templates', component: viewTemplates }
-  ]
+    mode: "history",
+    routes: [
+        { path: '/admin', component: dashboard },
+        { path: '/admin/create/template', component: createTemplate },
+        { path: '/admin/create/page', component: createPage },
+        { path: '/admin/view/pages', component: viewPages },
+        { path: '/admin/view/templates', component: viewTemplates }
+    ]
 })
 
 new Vue({
-  data: {
-  },
-  router,
-  components: { App },
-  template: '<App/>',
-  mounted () {
-  }
+    data: {
+    },
+    router,
+    components: { App },
+    template: '<App/>',
+    mounted () {
+    }
 }).$mount('#app')

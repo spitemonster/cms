@@ -1,15 +1,10 @@
 // import methods from './methods.js'
-
 const express = require(`express`)
 const fs = require(`fs`)
-const MarkDownIt = require(`markdown-it`)
 const hbs = require('hbs')
 const bodyParser = require('body-parser')
-const urlencodedParser = bodyParser.urlencoded({extended: false})
-const path = require('path')
 
 let server = express()
-let md = new MarkDownIt()
 let PORT = process.env.PORT ? process.env.PORT : 8888
 
 let page = require('./routes/page.js')
@@ -30,7 +25,7 @@ server.use('/admin', admin)
 
 
 server.get(`/:slug?`, (req, res) => {
-    let pageIndex = JSON.parse(fs.readFileSync(`${__dirname}/../pages/pageIndex.json`)).pages
+    let pageIndex = JSON.parse(fs.readFileSync(`${__dirname}/../pages/pageIndex.json`))
     let slug = req.params.slug
 
     if (typeof slug === 'undefined') {
@@ -49,25 +44,23 @@ server.get(`/:slug?`, (req, res) => {
                 return res.render(pageData.templateUrl, { pd })
             }
         }
-    }
+    } else {
+        for (let page in pageIndex) {
+            let p = pageIndex[page]
 
-    for (let page in pageIndex) {
-        let p = pageIndex[page]
+            if (p.url === `/${slug}`) {
+                let pageData = JSON.parse(fs.readFileSync(`${__dirname}/../pages/${p.filename}/${p.filename}.json`))
 
-        if (p.url === `/${slug}`) {
-            let pageData = JSON.parse(fs.readFileSync(`${__dirname}/../pages/${p.filename}/${p.filename}.json`))
+                let pd = {}
 
-            let pd = {}
+                pageData.fields.forEach((field) => {
+                    pd[field.name.toLowerCase()] = field
+                })
 
-            pageData.fields.forEach((field) => {
-                pd[field.name.toLowerCase()] = field
-            })
-
-            return res.render(pageData.templateUrl, { pd })
+                return res.render(pageData.templateUrl, { pd })
+            }
         }
     }
-
-    console.log('hella params')
 })
 
 server.listen(PORT, () => {
