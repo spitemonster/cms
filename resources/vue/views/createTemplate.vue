@@ -18,77 +18,76 @@
     import fieldCard from '../components/fieldCard.vue'
     import draggable from 'vuedraggable'
     import Bus from '../../scripts/admin.js'
-    import uuidv4 from 'uuid/v4'
     import axios from 'axios'
 
     export default {
-      data () {
-        return {
-          fields: []
-        }
-      },
-      methods: {
-        addField () {
-          let sel = document.getElementById('fieldSelector')
-
-          this.fields.push({id: this.generateId(), name: '', type: sel.value, required: false})
+        data () {
+            return {
+                fields: []
+            }
         },
-        removeField (targetId) {
-          this.fields = this.fields.filter((field) => {
-            return field.id !== targetId
-          })
-        },
-        generateId () {
-          return uuidv4()
-        },
-        saveTemplate () {
-          let templateName = document.querySelector('#template-name').value
+        methods: {
+            addField () {
+                let sel = document.getElementById('fieldSelector')
 
-          let headers = { 'Content-Type': 'application/json' }
+                this.fields.push({id: this.generateId(), name: '', type: sel.value, required: false})
+            },
+            removeField (targetId) {
+                this.fields = this.fields.filter((field) => {
+                    return field.id !== targetId
+                })
+            },
+            generateId () {
+                return uuidv4()
+            },
+            saveTemplate () {
+                let templateName = document.querySelector('#template-name').value
 
-          let template = {
-            name: templateName,
-            id: this.generateId(),
-            fields: this.fields
-          }
+                let headers = { 'Content-Type': 'application/json' }
+
+                let template = {
+                    name: templateName,
+                    id: this.generateId(),
+                    fields: this.fields
+                }
 
           // let data = JSON.stringify(template)
 
-          axios.post('/create/template', template, headers)
+                axios.post('/create/template', template, headers)
             .then((res) => {
-              console.log(res)
+                console.log(res)
             })
 
-          console.log(template)
+                console.log(template)
+            }
+        },
+        components: {
+            fieldCard,
+            draggable
+        },
+        mounted () {
+            Bus.$on('delete', (fieldId) => {
+                this.removeField(fieldId)
+            })
+
+            Bus.$on('requireField', (field) => {
+                this.fields.filter((f) => {
+                    if (f.id === field.id) {
+                        f.required = !f.required
+                    }
+                })
+            })
+
+            Bus.$on('nameField', (field) => {
+                this.fields.filter((f) => {
+                    if (f.id === field.id) {
+                        f.name = field.name
+                    }
+                })
+            })
+        },
+        updated () {
         }
-      },
-      components: {
-        fieldCard,
-        draggable
-      },
-      mounted () {
-        Bus.$on('delete', (fieldId) => {
-          this.removeField(fieldId)
-        })
-
-        Bus.$on('requireField', (field) => {
-          this.fields.filter((f) => {
-            if (f.id === field.id) {
-              f.required = !f.required
-            }
-          })
-        })
-
-        Bus.$on('nameField', (field) => {
-          this.fields.filter((f) => {
-            if (f.id === field.id) {
-              f.name = field.name
-            }
-          })
-        })
-      },
-      updated () {
-      }
     }
 </script>
 <style lang="css">

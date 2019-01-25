@@ -1,9 +1,9 @@
 {
-  "id": "6db52309-0d45-4405-9c0d-dba6eb61cfd4",
-  "name": "test",
+  "id": "a373ddd4-69ff-477d-a472-343f3091f320",
+  "updatedAt": 1548437443648,
+  "createdAt": 1548437443648,
+  "name": "Home Page",
   "template": "b2497976-e9ad-4c43-94f6-45b55f5a4291",
-  "createdAt": 1548368425506,
-  "updatedAt": 1548368425506,
   "fields": [
     {
       "id": "71732582-faa4-4103-8ebe-99fcca0cce28",
@@ -19,5 +19,6 @@
       "required": true,
       "content": "test"
     }
-  ]
+  ],
+  "filename": "home_page"
 }
