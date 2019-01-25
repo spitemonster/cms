@@ -1,24 +1,24 @@
 {
   "name": "Homepage",
-  "id": "b2497976-e9ad-4c43-94f6-45b55f5a4291",
+  "id": "7d8757d8-9e44-4e58-b277-bd30f6535148",
   "fields": [
     {
-      "id": "71732582-faa4-4103-8ebe-99fcca0cce28",
+      "id": "99fc6157-be33-4e0e-8706-c02b7d0f776c",
       "name": "Title",
       "type": "text",
       "required": true
     },
     {
-      "id": "6278e09c-5d30-4f20-920b-e124a40ece4a",
+      "id": "60d93814-25d9-45b9-8b4c-075a8ecacf90",
       "name": "Body",
       "type": "textarea",
       "required": true
     }
   ],
-  "templateUrl": "/Users/kirbyjohnston/sites/cms/server/../views/templates/homepage/homepage.hbs",
-  "dataUrl": "/Users/kirbyjohnston/sites/cms/server/../views/templates/homepage/homepage.json",
+  "templateUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/homepage/homepage.hbs",
+  "dataUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/homepage/homepage.json",
   "loc": "/homepage",
-  "createdAt": 1548361102632,
-  "updatedAt": 1548361102632,
+  "createdAt": 1548443494098,
+  "updatedAt": 1548443494098,
   "revisions": 0
 }

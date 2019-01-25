@@ -1,0 +1,24 @@
+{
+  "id": "7e96b6d6-3dfd-4147-ba13-3dcd1d2fc0f4",
+  "updatedAt": 1548443605632,
+  "createdAt": 1548443605632,
+  "name": "Home",
+  "template": "7d8757d8-9e44-4e58-b277-bd30f6535148",
+  "fields": [
+    {
+      "id": "99fc6157-be33-4e0e-8706-c02b7d0f776c",
+      "name": "Title",
+      "type": "text",
+      "required": true,
+      "content": "Page Title"
+    },
+    {
+      "id": "60d93814-25d9-45b9-8b4c-075a8ecacf90",
+      "name": "Body",
+      "type": "textarea",
+      "required": true,
+      "content": "Lorem ipsum."
+    }
+  ],
+  "filename": "home"
+}

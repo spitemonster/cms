@@ -19,6 +19,7 @@
     import draggable from 'vuedraggable'
     import Bus from '../../scripts/admin.js'
     import axios from 'axios'
+    import uuidv4 from 'uuid/v4'
 
     export default {
         data () {
@@ -53,7 +54,7 @@
 
           // let data = JSON.stringify(template)
 
-                axios.post('/create/template', template, headers)
+                axios.post('/template', template, headers)
             .then((res) => {
                 console.log(res)
             })

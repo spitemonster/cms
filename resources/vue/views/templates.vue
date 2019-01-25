@@ -12,21 +12,21 @@
     import axios from 'axios'
 
     export default {
-      data () {
-        return {
-          templates: {}
-        }
-      },
-      props: [],
-      methods: {
+        data () {
+            return {
+                templates: {}
+            }
+        },
+        props: [],
+        methods: {
 
-      },
-      beforeCreate () {
-        axios.get('/templates')
+        },
+        beforeCreate () {
+            axios.get('/template')
           .then((res) => {
-            this.templates = res.data.templates
+              this.templates = res.data.templates
           })
-      }
+        }
     }
 </script>
 <style lang="css">

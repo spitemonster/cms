@@ -19,16 +19,17 @@ router.get('/', (req, res) => {
 
         pageIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../pages/pageIndex.json`)).pages
 
-        if (ql !== 0 && ql === 1) {
+        if (ql === 0) {
+            return res.status(200).json(pageIndex)
+        } else if (ql === 1) {
             for (let page in pageIndex) {
                 if (pageIndex[page][qs].toUpperCase() == q[qs].toUpperCase()) {
                     res.status(200).json(pageIndex[page])
                 }
             }
         } else if (ql > 1) {
+            // i initially wanted to allow queries for more than one field but I don't really think it's necessary. this route is going to be mostly for getting page data for the front end or admin editor
             res.status(400).send('Too many query fields. Please search just by name or id.')
-        } else {
-            return res.status(200).json(pageIndex)
         }
     })
 })

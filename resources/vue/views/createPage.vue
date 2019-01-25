@@ -56,7 +56,7 @@
 
                 console.log(pageData)
 
-                axios.post('/create/page', pageData, headers)
+                axios.post('/page', pageData, headers)
                 .then((res) => {
                     console.log('res')
                 })
