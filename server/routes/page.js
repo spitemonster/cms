@@ -8,30 +8,40 @@ let router = express.Router()
 router.get('/', (req, res) => {
     // get all pages or if given a query string get a page based on that query string
     // test if pageIndex file exists
+
     fs.access(`${__dirname}/../../pages/pageIndex.json`, (err) => {
+        if (err) {
+            // handle error
+            // this should only happen if the pageIndex.json file doesn't exist
+            // 500 error
+
+            return
+        }
+
         let pageIndex = {}
         let q = req.query
         let ql = Object.keys(q).length
-        let qs = Object.keys(q)
 
-        if (err) {
-            return res.status(400).send('No pages exist')
+        if (ql > 1 || (Object.keys(q)[0] !== 'id' && ql !== 0)) {
+            return res.status(403).send('Query pages only by ID.')
         }
 
         pageIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../pages/pageIndex.json`))
 
         if (ql === 0) {
             return res.status(200).json(pageIndex)
-        } else if (ql === 1) {
-            for (let page in pageIndex) {
-                if (pageIndex[page][qs].toUpperCase() == q[qs].toUpperCase()) {
-                    res.status(200).json(pageIndex[page])
-                }
-            }
-        } else if (ql > 1) {
-            // i initially wanted to allow queries for more than one field but I don't really think it's necessary. this route is going to be mostly for getting page data for the front end or admin editor
-            res.status(400).send('Too many query fields. Please search just by name or id.')
         }
+
+        let target = pageIndex[q['id']]
+
+        fs.readFile(`${__dirname}/../../pages/${target.filename}/${target.filename}.json`, (err, data) => {
+            if (err) {
+                // handle error
+            }
+
+            return res.status(200).json(JSON.parse(data))
+        })
+
     })
 })
 
@@ -65,9 +75,6 @@ router.post('/', (req, res) => {
     fs.access(`${__dirname}/../../pages/pageIndex.json`, (err) => {
         if (err) {
             let z = {
-                pages: {
-
-                }
             }
             fs.writeFileSync(`${__dirname}/../../pages/pageIndex.json`, JSON.stringify(z, undefined, 2), 'utf8')
         }
@@ -82,6 +89,31 @@ router.post('/', (req, res) => {
     })
 
     res.status(200).send('Post Received')
+})
+
+router.patch('/:pageId', (req, res) => {
+    // get the data of the requested page
+    let  t = req.params.pageId
+
+    // console.log(req.body)
+
+    let pageIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../pages/pageIndex.json`))
+    let targetFile = pageIndex[t].filename
+    let targetPage = JSON.parse(fs.readFileSync(`${__dirname}/../../pages/${targetFile}/${targetFile}.json`))
+
+    // save a draft of the page
+    // fs.copyFile(`${__dirname}/../../pages/${targetFile}/${targetFile}.json`, `${__dirname}/../../pages/${targetFile}/${targetFile}-revision-${Date.now()}.json`, (err) => {
+    //     if (err) {
+    //         // handle error
+    //     }
+    // })
+
+    // overwrite data of data file
+    let newData = {...targetPage, ...req.body}
+
+    console.log(newData)
+
+    //
 })
 
 router.delete('/:pageId', (req, res) => {

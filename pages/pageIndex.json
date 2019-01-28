@@ -1,3 +1,12 @@
 {
-  "pages": {}
+  "8a0fe3c2-72ab-4f2c-b9ae-aa5515c42c76": {
+    "id": "8a0fe3c2-72ab-4f2c-b9ae-aa5515c42c76",
+    "updatedAt": 1548709343295,
+    "createdAt": 1548709343295,
+    "filename": "home",
+    "name": "Home",
+    "url": "/",
+    "templateUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/home_page/home_page.hbs",
+    "templateId": "ea383d1a-cbd4-400b-befa-f855b921e792"
+  }
 }

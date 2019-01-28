@@ -2,10 +2,10 @@
     <div>
         <label :for="fieldName">{{ fieldName }}</label>
         <template v-if="fieldType === 'text'">
-            <input type="text" :name="fieldName" :data-fieldId="fieldId" :required="fieldRequired ? true : false" :id="fieldName" class="inputField" @change="fieldContent($event)">
+            <input type="text" :name="fieldName" :data-fieldId="fieldId" :required="fieldRequired ? true : false" :id="fieldName" class="inputField" @change="fieldContent($event)" :value="content">
         </template>
         <template v-else-if="fieldType === 'textarea'">
-            <textarea :name="fieldName" :data-fieldId="fieldId" :required="fieldRequired ? true : false" :id="fieldName" class="inputField" @change="fieldContent($event)"></textarea>
+            <textarea :name="fieldName" :data-fieldId="fieldId" :required="fieldRequired ? true : false" :id="fieldName" class="inputField" @change="fieldContent($event)">{{ content }}</textarea>
         </template>
     </div>
 </template>
@@ -13,17 +13,17 @@
     import Bus from '../../scripts/admin.js'
 
     export default {
-      data () {
-        return {
+        data () {
+            return {
 
+            }
+        },
+        props: ['fieldType', 'fieldName', 'fieldId', 'fieldRequired', 'content'],
+        methods: {
+            fieldContent (e) {
+                Bus.$emit('fieldFill', e.target)
+            }
         }
-      },
-      props: ['fieldType', 'fieldName', 'fieldId', 'fieldRequired'],
-      methods: {
-        fieldContent (e) {
-          Bus.$emit('fieldFill', e.target)
-        }
-      }
     }
 </script>
 <style lang="css">

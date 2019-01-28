@@ -1,1 +1,17 @@
-{}
+{
+  "ea383d1a-cbd4-400b-befa-f855b921e792": {
+    "name": "Home Page",
+    "id": "ea383d1a-cbd4-400b-befa-f855b921e792",
+    "templateUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/home_page/home_page.hbs",
+    "templateFileName": "home_page.hbs",
+    "dataUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/home_page/home_page.json",
+    "dataFileName": "home_page.json",
+    "loc": "/home_page",
+    "createdAt": 1548709320761,
+    "updatedAt": 1548709320761,
+    "revisions": 0,
+    "pages": [
+      "8a0fe3c2-72ab-4f2c-b9ae-aa5515c42c76"
+    ]
+  }
+}

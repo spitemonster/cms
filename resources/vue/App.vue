@@ -17,6 +17,9 @@
               <router-link tag="li" to="/admin/view/pages">
                 <a>View Pages</a>
               </router-link>
+              <router-link tag="li" to="/admin/edit/page">
+                <a>Edit Page</a>
+              </router-link>
           </ul>
       </nav>
       <div class="dashboard__body l-auto">

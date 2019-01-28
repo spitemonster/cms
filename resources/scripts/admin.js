@@ -9,9 +9,9 @@ import createTemplate from '../vue/views/createTemplate.vue'
 import createPage from '../vue/views/createPage.vue'
 import viewPages from '../vue/views/pages.vue'
 import viewTemplates from '../vue/views/templates.vue'
+import editPage from '../vue/views/editPage.vue'
 
 // import components
-import fieldCard from '../vue/components/fieldCard.vue'
 
 const Bus = new Vue()
 
@@ -20,16 +20,14 @@ export default Bus
 Vue.use(Sortable)
 Vue.use(Router)
 
-const test = { template: '<div>foo</div>' }
-
 const router = new Router({
-    mode: "history",
     routes: [
         { path: '/admin', component: dashboard },
         { path: '/admin/create/template', component: createTemplate },
         { path: '/admin/create/page', component: createPage },
         { path: '/admin/view/pages', component: viewPages },
-        { path: '/admin/view/templates', component: viewTemplates }
+        { path: '/admin/view/templates', component: viewTemplates },
+        { path: '/admin/page/:page_id/edit', component: editPage }
     ]
 })
 

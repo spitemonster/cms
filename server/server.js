@@ -22,45 +22,39 @@ server.use('/page', page)
 server.use('/template', template)
 server.use('/admin', admin)
 
-
-
 server.get(`/:slug?`, (req, res) => {
-    let pageIndex = JSON.parse(fs.readFileSync(`${__dirname}/../pages/pageIndex.json`))
-    let slug = req.params.slug
 
-    if (typeof slug === 'undefined') {
-        for (let page in pageIndex) {
-            let p = pageIndex[page]
+    fs.readFile(`${__dirname}/../pages/pageIndex.json`, (err, data) => {
+        let pages = JSON.parse(data)
 
-            if (p.url === '/') {
-                let pageData = JSON.parse(fs.readFileSync(`${__dirname}/../pages/${p.filename}/${p.filename}.json`))
+        if (err) {
+            // handle error
+        }
+
+        for (let page in pages) {
+            let p = pages[page]
+
+            if (p.url !== req.path) {
+                continue
+            }
+
+            fs.readFile(`${__dirname}/../pages/${p.filename}/${p.filename}.json`, (err, data) => {
+                let pageData = JSON.parse(data)
+
+                if (err) {
+                    return res.redirect('/')
+                }
 
                 let pd = {}
 
                 pageData.fields.forEach((field) => {
-                    pd[field.name.toLowerCase()] = field
+                    pd[field.name.toLowerCase()] = field.content
                 })
 
-                return res.render(pageData.templateUrl, { pd })
-            }
+                return res.render(pageData.templateUrl, pd)
+            })
         }
-    } else {
-        for (let page in pageIndex) {
-            let p = pageIndex[page]
-
-            if (p.url === `/${slug}`) {
-                let pageData = JSON.parse(fs.readFileSync(`${__dirname}/../pages/${p.filename}/${p.filename}.json`))
-
-                let pd = {}
-
-                pageData.fields.forEach((field) => {
-                    pd[field.name.toLowerCase()] = field
-                })
-
-                return res.render(pageData.templateUrl, { pd })
-            }
-        }
-    }
+    })
 })
 
 server.listen(PORT, () => {
