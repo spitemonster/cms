@@ -95,8 +95,13 @@ router.patch('/:pageId', (req, res) => {
     // get the data of the requested page
     let  t = req.params.pageId
 
+    // read the index file and get data
     let pageIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../pages/pageIndex.json`))
+
+    // get the target filename from pageIndex data
     let targetFile = pageIndex[t].filename
+
+    // get target page data
     let targetPage = JSON.parse(fs.readFileSync(`${__dirname}/../../pages/${targetFile}/${targetFile}.json`))
 
     // save a draft of the page
@@ -104,11 +109,15 @@ router.patch('/:pageId', (req, res) => {
 
     // overwrite data of data file
     let newData = {...targetPage, ...req.body}
+
+    // update 'updated at' of both index data and page data
     newData.updatedAt = pageIndex[t].updatedAt = Date.now()
 
+    // write new data to page data file and updated data to
     fs.writeFileSync(`${__dirname}/../../pages/${targetFile}/${targetFile}.json`, JSON.stringify(newData, undefined, 2), 'utf8')
-
     fs.writeFileSync(`${__dirname}/../../pages/pageIndex.json`, JSON.stringify(pageIndex, undefined, 2), 'utf8')
+
+    res.status(200).send('Page Updated')
 })
 
 router.delete('/:pageId', (req, res) => {

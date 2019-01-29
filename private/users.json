@@ -1,0 +1,18 @@
+{
+  "67e73feb-6693-4a2c-8f3e-77acab93f7ce": {
+    "username": "kjohnston",
+    "password": "$2a$10$LDf6pAUszjkNTKfmMuPzde8fdE4G68fks0bRHq34lUJeeadQ.Sd3u",
+    "firstName": "Kirby",
+    "lastName": "Johnston",
+    "email": "johnstk91@gmail.com",
+    "id": "67e73feb-6693-4a2c-8f3e-77acab93f7ce"
+  },
+  "670ed6fc-73bd-4014-ad32-2434659adb71": {
+    "username": "johnstk91",
+    "password": "$2a$10$B1R6Du0aCDck64Yh1l1ha.U2XkbNcTKPUVop3TthYOtaUzjQG9zLK",
+    "firstName": "Kirby",
+    "lastName": "Johnston",
+    "email": "johnstk91@protonmail.com",
+    "id": "670ed6fc-73bd-4014-ad32-2434659adb71"
+  }
+}

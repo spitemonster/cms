@@ -22,8 +22,6 @@
         methods: {
             fieldContent (e) {
                 Bus.$emit('fieldFill', e.target)
-
-                console.log(e.target.value)
             }
         }
     }

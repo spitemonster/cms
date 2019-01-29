@@ -19,6 +19,7 @@
 import axios from 'axios'
 import inputField from '../components/inputField.vue'
 import Bus from '../../scripts/admin.js'
+import router from '../../scripts/admin.js'
 
 export default {
     name: '',
@@ -41,7 +42,7 @@ export default {
 
             axios.patch(`/page/${this.$route.params.page_id}`, pageData, headers)
             .then((res) => {
-                console.log(res)
+                this.$router.push({ name: 'admin' })
             })
         }
     },
