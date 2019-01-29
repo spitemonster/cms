@@ -95,25 +95,20 @@ router.patch('/:pageId', (req, res) => {
     // get the data of the requested page
     let  t = req.params.pageId
 
-    // console.log(req.body)
-
     let pageIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../pages/pageIndex.json`))
     let targetFile = pageIndex[t].filename
     let targetPage = JSON.parse(fs.readFileSync(`${__dirname}/../../pages/${targetFile}/${targetFile}.json`))
 
     // save a draft of the page
-    // fs.copyFile(`${__dirname}/../../pages/${targetFile}/${targetFile}.json`, `${__dirname}/../../pages/${targetFile}/${targetFile}-revision-${Date.now()}.json`, (err) => {
-    //     if (err) {
-    //         // handle error
-    //     }
-    // })
+    fs.writeFileSync(`${__dirname}/../../pages/${targetFile}/${targetFile}-revision-${Date.now()}.json`, JSON.stringify(targetPage, undefined, 2), 'utf8')
 
     // overwrite data of data file
     let newData = {...targetPage, ...req.body}
+    newData.updatedAt = pageIndex[t].updatedAt = Date.now()
 
-    console.log(newData)
+    fs.writeFileSync(`${__dirname}/../../pages/${targetFile}/${targetFile}.json`, JSON.stringify(newData, undefined, 2), 'utf8')
 
-    //
+    fs.writeFileSync(`${__dirname}/../../pages/pageIndex.json`, JSON.stringify(pageIndex, undefined, 2), 'utf8')
 })
 
 router.delete('/:pageId', (req, res) => {

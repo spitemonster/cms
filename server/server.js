@@ -1,8 +1,8 @@
-// import methods from './methods.js'
 const express = require(`express`)
 const fs = require(`fs`)
 const hbs = require('hbs')
 const bodyParser = require('body-parser')
+const methods = require('./methods.js')
 
 let server = express()
 let PORT = process.env.PORT ? process.env.PORT : 8888
@@ -26,9 +26,10 @@ server.get(`/:slug?`, (req, res) => {
 
     fs.readFile(`${__dirname}/../pages/pageIndex.json`, (err, data) => {
         let pages = JSON.parse(data)
+        let pd = {}
 
         if (err) {
-            // handle error
+            methods.handleErrors(err)
         }
 
         for (let page in pages) {
@@ -44,8 +45,6 @@ server.get(`/:slug?`, (req, res) => {
                 if (err) {
                     return res.redirect('/')
                 }
-
-                let pd = {}
 
                 pageData.fields.forEach((field) => {
                     pd[field.name.toLowerCase()] = field.content
