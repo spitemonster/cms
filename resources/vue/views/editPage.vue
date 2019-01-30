@@ -12,6 +12,10 @@
                         :key="field.id"
                         :content="field.content"></inputField>
 
+        <select name="revisions" @change="loadRevision">
+            <option v-for="revision in revisions" :value="revision.id">{{ revision.name }} - {{ revision.createdAt }}</option>
+        </select>
+
         <button @click="savePage">Save Page</button>
     </div>
 </template>
@@ -27,11 +31,20 @@ export default {
         return {
             name: '',
             url: '',
-            fields: []
+            fields: [],
+            revisions: []
         }
     },
     props: [],
     methods: {
+        loadRevision (e) {
+            axios.get(`/page/${this.$route.params.page_id}/revision/${e.target.value}`)
+            .then((data) => {
+                this.fields = data.data.fields
+                this.name = data.data.name
+                this.url = data.data.url
+            })
+        },
         savePage () {
             let headers = { 'Content-Type': 'application/json' }
 
@@ -55,6 +68,7 @@ export default {
                 this.fields = data.data.fields
                 this.name = data.data.name
                 this.url = data.data.url
+                this.revisions = data.data.revisions
             })
     },
     mounted() {

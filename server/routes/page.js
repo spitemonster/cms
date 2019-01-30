@@ -54,6 +54,71 @@ router.get('/:pageId', (req, res) => {
     })
 })
 
+
+router.get('/:pageId/revision/', (req, res) => {
+    let pid = req.params.pageId
+
+    fs.access(`${__dirname}/../../pages/pageIndex.json`, (err) => {
+        if (err) {
+            // handle error
+            // this should only happen if the pageIndex.json file doesn't exist
+            // 500 error
+
+            return
+        }
+
+        let pageIndex = {}
+
+        pageIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../pages/pageIndex.json`))
+
+        let target = pageIndex[pid]
+
+        fs.readFile(`${__dirname}/../../pages/${target.filename}/${target.filename}.json`, (err, data) => {
+            if (err) {
+                // handle error
+            }
+
+            let pageData = JSON.parse(data)
+
+            return res.status(200).json(pageData.revisions)
+        })
+
+    })
+})
+
+
+router.get('/:pageId/revision/:revId', (req, res) => {
+    let pid = req.params.pageId
+    let rid = req.params.revId
+
+    fs.access(`${__dirname}/../../pages/pageIndex.json`, (err) => {
+        if (err) {
+            // handle error
+            // this should only happen if the pageIndex.json file doesn't exist
+            // 500 error
+
+            return
+        }
+
+        let pageIndex = {}
+
+        pageIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../pages/pageIndex.json`))
+
+        let target = pageIndex[pid]
+
+        fs.readFile(`${__dirname}/../../pages/${target.filename}/${target.filename}-revision-${rid}.json`, (err, data) => {
+            if (err) {
+                // handle error
+            }
+
+            let pageData = JSON.parse(data)
+
+            return res.status(200).json(pageData)
+        })
+
+    })
+})
+
 router.post('/', (req, res) => {
     // create a page
 
@@ -113,14 +178,28 @@ router.patch('/:pageId', (req, res) => {
     // get target page data
     let targetPage = JSON.parse(fs.readFileSync(`${__dirname}/../../pages/${targetFile}/${targetFile}.json`))
 
-    // save a draft of the page
-    fs.writeFileSync(`${__dirname}/../../pages/${targetFile}/${targetFile}-revision-${Date.now()}.json`, JSON.stringify(targetPage, undefined, 2), 'utf8')
-
     // overwrite data of data file
     let newData = {...targetPage, ...req.body}
 
+    if (!newData.revisions) {
+        newData.revisions = {}
+    }
+
+    let revId = uuidv4()
+    let r = {}
+
+    r.id = revId
+
+    targetPage.revisionId = revId
+
     // update 'updated at' of both index data and page data
-    newData.updatedAt = pageIndex[t].updatedAt = Date.now()
+    newData.updatedAt = pageIndex[t].updatedAt = r.createdAt = Date.now()
+    r.name = newData.name
+
+    newData.revisions[revId] = r
+
+    // save a draft of the page
+    fs.writeFileSync(`${__dirname}/../../pages/${targetFile}/${targetFile}-revision-${revId}.json`, JSON.stringify(targetPage, undefined, 2), 'utf8')
 
     // write new data to page data file and updated data to
     fs.writeFileSync(`${__dirname}/../../pages/${targetFile}/${targetFile}.json`, JSON.stringify(newData, undefined, 2), 'utf8')
