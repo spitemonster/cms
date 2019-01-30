@@ -50,7 +50,7 @@ export default {
         inputField
     },
     beforeCreate() {
-        axios.get(`/page/?id=${this.$route.params.page_id}`)
+        axios.get(`/page/${this.$route.params.page_id}`)
             .then((data) => {
                 this.fields = data.data.fields
                 this.name = data.data.name

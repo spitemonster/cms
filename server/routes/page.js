@@ -18,21 +18,30 @@ router.get('/', (req, res) => {
             return
         }
 
-        let pageIndex = {}
-        let q = req.query
-        let ql = Object.keys(q).length
+        let pageIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../pages/pageIndex.json`))
 
-        if (ql > 1 || (Object.keys(q)[0] !== 'id' && ql !== 0)) {
-            return res.status(403).send('Query pages only by ID.')
+        return res.status(200).json(pageIndex)
+
+    })
+})
+
+router.get('/:pageId', (req, res) => {
+    let pid = req.params.pageId
+
+    fs.access(`${__dirname}/../../pages/pageIndex.json`, (err) => {
+        if (err) {
+            // handle error
+            // this should only happen if the pageIndex.json file doesn't exist
+            // 500 error
+
+            return
         }
+
+        let pageIndex = {}
 
         pageIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../pages/pageIndex.json`))
 
-        if (ql === 0) {
-            return res.status(200).json(pageIndex)
-        }
-
-        let target = pageIndex[q['id']]
+        let target = pageIndex[pid]
 
         fs.readFile(`${__dirname}/../../pages/${target.filename}/${target.filename}.json`, (err, data) => {
             if (err) {
