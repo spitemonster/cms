@@ -37,4 +37,8 @@ router.post('/', (req, res) => {
     })
 })
 
+router.get('/', (req, res) => {
+    res.status(403).send('No touching.')
+})
+
 module.exports = router
