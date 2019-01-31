@@ -1,0 +1,36 @@
+{
+    "$schema" : "http://json-schema.org/draft-07/schema#",
+    "$id" : "./user.schema.json",
+    "title" : "User",
+    "description" : "User data to be stored",
+    "type" : "object",
+    "properties" : {
+        "id" : {
+            "description" : "A user's unique ID",
+            "type" : "string",
+            "format" : "uuid"
+        },
+        "email" : {
+            "description" : "A user's email address",
+            "type" : "string",
+            "format" : "email"
+        },
+        "username" : {
+            "description" : "A user's username",
+            "type" : "string"
+        },
+        "password" : {
+            "description" : "User's password hash",
+            "type" : "string"
+        },
+        "firstName" : {
+            "description" : "User's first name",
+            "type" : "string"
+        },
+        "lastName" : {
+            "description" : "User's last name",
+            "type" : "string"
+        }
+    },
+    "required" : ["id", "email", "username", "password", "firstName", "lastName"]
+}

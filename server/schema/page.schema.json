@@ -1,0 +1,113 @@
+{
+    "$schema" : "http://json-schema.org/draft-07/schema#",
+    "$id" : "./page.schema.json",
+    "title" : "Page",
+    "description" : "A page on the site",
+    "type" : "object",
+    "properties" : {
+        "id" : {
+            "description" : "A page's unique ID",
+            "type" : "string",
+            "format" : "uuid"
+        },
+        "updatedBy" : {
+            "description" : "Username of most recent user to make changes to the page",
+            "type" : "string"
+        },
+        "createdBy" : {
+            "description" : "Username of user that created the page",
+            "type" : "string"
+        },
+        "updatedAt" : {
+            "description" : "Date of most recent update",
+            "type" : "integer"
+        },
+        "createdAt" : {
+            "description" : "Date the page was created",
+            "type" : "integer"
+        },
+        "name" : {
+            "description" : "Name of the page",
+            "type" : "string"
+        },
+        "url" : {
+            "description" : "Url desired by the user for the page",
+            "type" : "string"
+        },
+        "templateUrl" : {
+            "description" : "Absolute path to template tied to the page",
+            "type" : "string",
+            "format" : "uri-reference"
+        },
+        "templateId" : {
+            "description" : "Unique ID of the template tied to the page",
+            "type" : "string",
+            "format" : "uuid"
+        },
+        "fields" : {
+            "description" : "A collection of fields and data for the page",
+            "type" : "array",
+            "items" : {
+                "type" : "object",
+                "properties" : {
+                    "id" : {
+                        "description" : "ID of the field",
+                        "type" : "string",
+                        "format" : "uuid"
+                    },
+                    "name" : {
+                        "description" : "Name of field",
+                        "type" : "string"
+                    },
+                    "type" : {
+                        "description" : "Type of field",
+                        "type" : "string"
+                    },
+                    "required" : {
+                        "description" : "Whether or not the field is required",
+                        "type" : "boolean"
+                    },
+                    "content" : {
+                        "description" : "Content of field",
+                        "type" : "string"
+                    }
+                },
+                "additionalProperties" : false
+            },
+            "uniqueItems" : true
+        },
+        "filename" : {
+            "description" : "Filename for the page, correlates to page folder and data file",
+            "type" : "string"
+        },
+        "revisions" : {
+            "descriptions" : "A collection of revisions organized",
+            "type" : "array",
+            "items" : {
+                "type" : "object",
+                "properties": {
+                    "id" : {
+                        "description" : "ID of the revision",
+                        "type" : "string",
+                        "format": "uuid"
+                    },
+                    "updatedBy" : {
+                        "description" : "Last user to make changes to page",
+                        "type" : "string"
+                    },
+                    "createdAt" : {
+                        "description" : "Creation date of the revision",
+                        "type" : "integer"
+                    },
+                    "name" : {
+                        "description" : "Name of the new revision",
+                        "type" : "string"
+                    }
+                },
+                "additionalProperties" : false
+            }
+        }
+    },
+    "additionalProperties" : false,
+    "required" : ["id", "updatedBy", "createdBy", "updatedAt", "createdAt", "name", "url", "templateUrl", "templateId", "fields", "filename"]
+}

@@ -1,0 +1,24 @@
+{
+  "name": "Interior Page",
+  "id": "fd7d66b0-2cce-457e-aefd-528f8cce29dd",
+  "fields": [
+    {
+      "id": "38367088-1299-4933-9c7e-5c2150d2a09f",
+      "name": "Title",
+      "type": "text",
+      "required": true
+    },
+    {
+      "id": "a0457210-48ca-4fe3-864c-ad9123bcbdeb",
+      "name": "Content",
+      "type": "textarea",
+      "required": true
+    }
+  ],
+  "templateUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/interior_page/interior_page.hbs",
+  "dataUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/interior_page/interior_page.json",
+  "loc": "/interior_page",
+  "createdAt": 1548963504051,
+  "updatedAt": 1548963504051,
+  "revisions": 0
+}

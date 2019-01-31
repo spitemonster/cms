@@ -29,6 +29,7 @@ router.post('/', (req, res) => {
                     }
 
                     req.session.user_id = u.id
+                    req.session.username = u.username
                     res.status(200).redirect('/admin')
                 })
             }

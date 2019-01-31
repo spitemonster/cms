@@ -3,6 +3,10 @@ const express = require(`express`)
 const fs = require(`fs`)
 const rimraf = require(`rimraf`)
 
+const Ajv = require('ajv')
+const pageSchema = require('../schema/page.schema.json')
+let ajv = new Ajv()
+
 let router = express.Router()
 
 router.get('/', (req, res) => {
@@ -130,6 +134,7 @@ router.post('/', (req, res) => {
 
     // generate id for new page and add created and upated at fields
     pageData.id = pageMeta.id = uuidv4()
+    pageData.createdBy = pageData.updatedBy = req.session.username
     pageData.createdAt = pageMeta.createdAt = pageData.updatedAt = pageMeta.updatedAt = Date.now()
 
     // combine pageData with req.body
@@ -145,6 +150,12 @@ router.post('/', (req, res) => {
     let templateIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../views/templates/templateIndex.json`))
 
     templateIndex[pageData.templateId].pages.push(pageData.id)
+
+    let valid = ajv.validate(pageSchema, pageData)
+
+    if (!valid) {
+        return res.status(400).send('error creating page')
+    }
 
     fs.access(`${__dirname}/../../pages/pageIndex.json`, (err) => {
         if (err) {
@@ -182,7 +193,7 @@ router.patch('/:pageId', (req, res) => {
     let newData = {...targetPage, ...req.body}
 
     if (!newData.revisions) {
-        newData.revisions = {}
+        newData.revisions = []
     }
 
     let revId = uuidv4()
@@ -193,10 +204,17 @@ router.patch('/:pageId', (req, res) => {
     targetPage.revisionId = revId
 
     // update 'updated at' of both index data and page data
+    newData.updatedBy = r.updatedBy = req.session.username
     newData.updatedAt = pageIndex[t].updatedAt = r.createdAt = Date.now()
     r.name = newData.name
 
-    newData.revisions[revId] = r
+    newData.revisions.push(r)
+
+    let valid = ajv.validate(pageSchema, newData)
+
+    if (!valid) {
+        return res.status(400).send('error creating page')
+    }
 
     // save a draft of the page
     fs.writeFileSync(`${__dirname}/../../pages/${targetFile}/${targetFile}-revision-${revId}.json`, JSON.stringify(targetPage, undefined, 2), 'utf8')
@@ -215,8 +233,6 @@ router.delete('/:pageId', (req, res) => {
     let templateIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../views/templates/templateIndex.json`))
 
     let targetTemplate = pageIndex[pageId].templateId
-
-    console.log(templateIndex[targetTemplate].pages.indexOf(pageId))
 
     templateIndex[targetTemplate].pages.splice(templateIndex[targetTemplate].pages.indexOf(pageId), 1)
 

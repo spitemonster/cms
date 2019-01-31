@@ -3,6 +3,10 @@ const express = require(`express`)
 const fs = require(`fs`)
 const rimraf = require('rimraf')
 
+const Ajv = require('ajv')
+const templateSchema = require('../schema/template.schema.json')
+let ajv = new Ajv()
+
 let router = express.Router()
 
 router.get('/', (req, res) => {
@@ -53,6 +57,12 @@ router.post('/', (req, res) => {
     templateData.createdAt = Date.now()
     templateData.updatedAt = templateData.createdAt
     templateData.revisions = 0
+
+    let valid = avj.validate(templateSchema, templateData)
+
+    if (!valid) {
+        return res.status(400).send('Invalid schema')
+    }
 
     fs.access(`${__dirname}/../../views/templates/templateIndex.json`, (err) => {
         if (err) {

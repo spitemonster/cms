@@ -11,14 +11,14 @@ var sessionChecker = (req, res, next) => {
     }
 }
 
-router.get(`/`, (req, res) => {
-    res.render(`panel.hbs`)
-})
-
-// below is the route with authentication. this is frustrating in dev so leaving it here but commenting it out
-// router.get(`/`, sessionChecker, (req, res) => {
+// router.get(`/`, (req, res) => {
 //     res.render(`panel.hbs`)
 // })
+
+// below is the route with authentication. this is frustrating in dev so leaving it here but commenting it out
+router.get(`/`, sessionChecker, (req, res) => {
+    res.render(`panel.hbs`)
+})
 
 router.get(`/*`, (req, res) => {
     res.redirect(`/admin`)

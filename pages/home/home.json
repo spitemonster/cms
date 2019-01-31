@@ -1,10 +1,11 @@
 {
-  "id": "8a0fe3c2-72ab-4f2c-b9ae-aa5515c42c76",
-  "updatedAt": 1548889385303,
-  "createdAt": 1548709343295,
-  "name": "Home Doofus",
+  "id": "0eaa4f4a-6620-44db-ac6a-99c44acb32cc",
+  "updatedBy": "kjohnston",
+  "createdBy": "kjohnston",
+  "updatedAt": 1548963638248,
+  "createdAt": 1548963638248,
+  "name": "Home",
   "url": "/",
-  "template": "ea383d1a-cbd4-400b-befa-f855b921e792",
   "templateUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/home_page/home_page.hbs",
   "templateId": "ea383d1a-cbd4-400b-befa-f855b921e792",
   "fields": [
@@ -20,25 +21,8 @@
       "name": "Body",
       "type": "textarea",
       "required": true,
-      "content": "Lorem ipsum dolor sit a poop"
+      "content": "Lorem ipsum dolar sit amet."
     }
   ],
-  "filename": "home",
-  "revisions": {
-    "150f4410-430f-45e5-8539-b971487b079d": {
-      "id": "150f4410-430f-45e5-8539-b971487b079d",
-      "createdAt": 1548889261704,
-      "name": "Home Doofus"
-    },
-    "0a19c684-f102-4e1a-9130-ba16c187b624": {
-      "id": "0a19c684-f102-4e1a-9130-ba16c187b624",
-      "createdAt": 1548889364909,
-      "name": "Home Doofus"
-    },
-    "1372326f-5f79-453f-89c1-2075734e084b": {
-      "id": "1372326f-5f79-453f-89c1-2075734e084b",
-      "createdAt": 1548889385303,
-      "name": "Home Doofus"
-    }
-  }
+  "filename": "home"
 }

@@ -1,7 +1,7 @@
 <template lang="html">
     <div>
         <h1>Create Page</h1>
-        <input type="text" id="pageName" @change="testPageName">
+        <input type="text" id="pageName">
         <input type="text" id="pageUrl" @change="testPageUrl">
         <select id="template" @change="selectTemplate">
             <option value="">Choose Template</option>
@@ -41,15 +41,10 @@
                         .then((data) => {
                             this.fields = data.data.fields
                             this.selectedTemplate = data.data
-                            console.log(this.selectedTemplate)
                         })
                 }
             },
-            testPageName () {
-
-            },
-            testPageUrl () {
-
+            testPageUrl (e) {
             },
             createPage () {
                 let headers = { 'Content-Type': 'application/json' }
@@ -58,13 +53,9 @@
                 let pageData = {}
                 pageData.name = document.querySelector('#pageName').value
                 pageData.url = document.querySelector('#pageUrl').value
-                pageData.template = document.querySelector('#template').value
                 pageData.templateUrl = this.selectedTemplate.templateUrl
                 pageData.templateId = this.selectedTemplate.id
                 pageData.fields = this.fields
-
-                console.log(pageData.templateUrl)
-                console.log(this.selectedTemplate.id)
 
                 axios.post('/page', pageData, headers)
                 .then((res) => {

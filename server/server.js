@@ -16,6 +16,7 @@ let template = require('./routes/template.js')
 let admin = require('./routes/admin.js')
 let login = require('./routes/login.js')
 let user = require('./routes/user.js')
+let test = require('./routes/test.js')
 
 let hour = 3600000
 
@@ -28,8 +29,6 @@ server.use(express.urlencoded({ extended: false }))
 server.use(helmet())
 server.use(session({
     genid: (req) => {
-        console.log('Inside the session middleware')
-        console.log(req.sessionID)
         return uuidv4() // use UUIDs for session IDs
     },
     secret: 'keyboard cat',
@@ -44,6 +43,7 @@ server.use('/template', template)
 server.use('/admin', admin)
 server.use('/login', login)
 server.use('/user', user)
+server.use('/test', test)
 
 server.get(`/:slug?`, (req, res) => {
 

@@ -1,0 +1,51 @@
+{
+    "$schema" : "http://json-schema.org/draft-07/schema#",
+    "$id" : "./template.schema.json",
+    "title" : "Template",
+    "description" : "A field template for pages",
+    "type" : "object",
+    "properties" : {
+        "id" : {
+            "description" : "A template's unique ID",
+            "type" : "string",
+            "format" : "uuid"
+        },
+        "name" : {
+            "description" : "The template's name",
+            "type" : "string"
+        },
+        "fields" : {
+            "description" : "A collection of fields and their type for the template",
+            "type" : "array"
+        },
+        "templateUrl" : {
+            "description" : "Absolute URI to the rendering template",
+            "type" : "string",
+            "format" : "uri-reference"
+        },
+        "dataUrl" : {
+            "description" : "Absolute URI to the template JSON file",
+            "type" : "string",
+            "format" : "uri-reference"
+        },
+        "loc" : {
+            "description" : "Location of the template files inside the templates folder, relative to the templates folder",
+            "type" : "string",
+            "format" : "uri-reference"
+        },
+        "createdAt" : {
+            "description" : "Date at which the template was created",
+            "type" : "integer"
+        },
+        "updatedAt" : {
+            "description" : "Date at which the template was last updated",
+            "type" : "integer"
+        },
+        "revisions" : {
+            "description" : "A collection of revisions to the template",
+            "type" : "object"
+        }
+    },
+    "required" : ["id", "name", "fields", "templateUrl", "dataUrl", "loc", "createdAt", "updatedAt"],
+    "additionalProperties" : false
+}
