@@ -58,10 +58,10 @@ router.post('/', (req, res) => {
     templateData.updatedAt = templateData.createdAt
     templateData.revisions = 0
 
-    let valid = avj.validate(templateSchema, templateData)
+    let valid = ajv.validate(templateSchema, templateData)
 
     if (!valid) {
-        return res.status(400).send('Invalid schema')
+        return res.status(422).send('There was an error formatting your data. Please try again.')
     }
 
     fs.access(`${__dirname}/../../views/templates/templateIndex.json`, (err) => {
@@ -112,7 +112,7 @@ router.delete('/:templateId', (req, res) => {
             sent = `There are currently ${piu} pages`
         }
 
-        res.status(403).send(`${sent} using this template. Please delete or archive those pages first.`)
+        res.status(401).send(`${sent} using this template. Please delete or archive those pages first.`)
     } else {
         rimraf(`${__dirname}/../../views/templates/${templateIndex[templateId].filename}`, () => {
             delete templateIndex[templateId]

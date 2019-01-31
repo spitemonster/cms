@@ -1,3 +1,5 @@
+const methods = require('../methods.js')
+
 const express = require(`express`)
 const Ajv = require('ajv')
 const fs = require('fs')
@@ -16,7 +18,7 @@ router.post('/user', (req, res) => {
     let valid = ajv.validate(schema, req.body)
 
     if (!valid) {
-        return res.status(400).send('Invalid format')
+        return res.status(422).send('Invalid format')
     }
 
     res.status(200).send('All good')
@@ -40,9 +42,15 @@ router.post('/template', (req, res) => {
 
     if (!valid) {
         console.log(ajv.errors)
-        return res.status(400).send('Invalid format')
+        return res.status(422).send('Invalid format')
     }
 
+    res.status(200).send('All good')
+})
+
+router.post('/methods', (req, res) => {
+    // console.log(req.body.user_id)
+    console.log(methods.verifyUser(req.body.user_id))
     res.status(200).send('All good')
 })
 

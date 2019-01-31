@@ -1,40 +1,25 @@
 const fs = require('fs')
 const express = require(`express`)
 const bcrypt = require(`bcryptjs`)
+const methods = require('../methods.js')
 
 let router = express.Router()
 
 router.get('/', (req, res) => {
+    if (req.session.user_id) {
+        return res.redirect('/admin')
+    }
+
     res.render('login.hbs')
 })
 
 router.post('/', (req, res) => {
-    let login = req.body
 
-    fs.readFile(`${__dirname}/../../private/users.json`, (err, data) => {
-        if (err) {
-            // handle err
-        }
+    if (!methods.verifyPassword(req.body.username, req.body.password)) {
+        return res.status(401).send('Username or password was incorrect. Please try again.')
+    }
 
-        let users = JSON.parse(data)
-
-        for (let user in users) {
-            let u = users[user]
-
-            if (u.username === login.username) {
-                bcrypt.compare(login.password, u.password, (err, ver) => {
-
-                    if (err) {
-                        // handle error
-                    }
-
-                    req.session.user_id = u.id
-                    req.session.username = u.username
-                    res.status(200).redirect('/admin')
-                })
-            }
-        }
-    })
+    res.status(200).redirect('/admin')
 })
 
 module.exports = router

@@ -1,16 +1,19 @@
 <template lang="html">
-    <h1>Dashboard</h1>
+    <div>
+      <h1>Dashboard</h1>
+      {{ user }}
+    </div>
 </template>
 <script>
     export default {
-      data () {
-        return {
-
-        }
-      },
-      props: [],
-      methods: {
-      }
+        data () {
+            return {
+                user: ''
+            }
+        },
+        props: [],
+        methods: {
+        },
     }
 </script>
 <style lang="css">

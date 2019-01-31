@@ -36,7 +36,7 @@ router.get('/:pageId', (req, res) => {
         if (err) {
             // handle error
             // this should only happen if the pageIndex.json file doesn't exist
-            // 500 error
+            res.status(503).send('There was an error on our end. Please try again.')
 
             return
         }
@@ -50,6 +50,7 @@ router.get('/:pageId', (req, res) => {
         fs.readFile(`${__dirname}/../../pages/${target.filename}/${target.filename}.json`, (err, data) => {
             if (err) {
                 // handle error
+                res.status(503).send('There was an error on our end. Please try again.')
             }
 
             return res.status(200).json(JSON.parse(data))
@@ -66,7 +67,7 @@ router.get('/:pageId/revision/', (req, res) => {
         if (err) {
             // handle error
             // this should only happen if the pageIndex.json file doesn't exist
-            // 500 error
+            res.status(503).send('There was an error on our end. Please try again.')
 
             return
         }
@@ -80,6 +81,7 @@ router.get('/:pageId/revision/', (req, res) => {
         fs.readFile(`${__dirname}/../../pages/${target.filename}/${target.filename}.json`, (err, data) => {
             if (err) {
                 // handle error
+                res.status(503).send('There was an error on our end. Please try again.')
             }
 
             let pageData = JSON.parse(data)
@@ -99,7 +101,7 @@ router.get('/:pageId/revision/:revId', (req, res) => {
         if (err) {
             // handle error
             // this should only happen if the pageIndex.json file doesn't exist
-            // 500 error
+            res.status(503).send('There was an error on our end. Please try again.')
 
             return
         }
@@ -113,6 +115,8 @@ router.get('/:pageId/revision/:revId', (req, res) => {
         fs.readFile(`${__dirname}/../../pages/${target.filename}/${target.filename}-revision-${rid}.json`, (err, data) => {
             if (err) {
                 // handle error
+
+                res.status(503).send('There was an error on our end. Please try again.')
             }
 
             let pageData = JSON.parse(data)
@@ -154,7 +158,7 @@ router.post('/', (req, res) => {
     let valid = ajv.validate(pageSchema, pageData)
 
     if (!valid) {
-        return res.status(400).send('error creating page')
+        return res.status(422).send('There was an error formatting your data. Please try again.')
     }
 
     fs.access(`${__dirname}/../../pages/pageIndex.json`, (err) => {
@@ -213,7 +217,7 @@ router.patch('/:pageId', (req, res) => {
     let valid = ajv.validate(pageSchema, newData)
 
     if (!valid) {
-        return res.status(400).send('error creating page')
+        return res.status(422).send('There was an error formatting your data. Please try again.')
     }
 
     // save a draft of the page

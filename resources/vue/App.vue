@@ -2,19 +2,19 @@
     <main class="dashboard">
       <nav class="dashboard__nav">
           <ul>
-              <router-link tag="li" to="/admin/">
+              <router-link tag="li" to="/">
                 <a>Dashboard</a>
               </router-link>
-              <router-link tag="li" to="/admin/create/template">
+              <router-link tag="li" to="/create/template">
                 <a>Create New Template</a>
               </router-link>
-              <router-link tag="li" to="/admin/create/page">
+              <router-link tag="li" to="/create/page">
                 <a>Create New Page</a>
               </router-link>
-              <router-link tag="li" to="/admin/view/templates">
+              <router-link tag="li" to="/view/templates">
                 <a>View Templates</a>
               </router-link>
-              <router-link tag="li" to="/admin/view/pages">
+              <router-link tag="li" to="/view/pages">
                 <a>View Pages</a>
               </router-link>
           </ul>
@@ -22,21 +22,24 @@
       <div class="dashboard__body l-auto">
         <router-view></router-view>
       </div>
+      <loggedOut v-if="logInError"></loggedOut>
     </main>
 </template>
 <script>
     import fieldCard from './components/fieldCard.vue'
     import createTemplate from './views/createTemplate.vue'
+    import loggedOut from './components/loggedOut.vue'
     import createPage from './views/createPage.vue'
     import draggable from 'vuedraggable'
-    import Bus from '../scripts/admin.js'
     import router from '../scripts/admin.js'
+    import axios from 'axios'
 
     export default {
         name: 'App',
         data () {
             return {
-                fields: []
+                fields: [],
+                logInError: false
             }
         },
         methods: {
@@ -46,11 +49,22 @@
             createTemplate,
             createPage,
             draggable,
-            router
+            router,
+            loggedOut
         },
         mounted () {
+            let int = setInterval(() => {
+                axios.get('/user')
+                  .then((res) => {
+                      // keep user logged in
+                  })
+                  .catch((err) => {
+                      this.logInError = true
+                      clearInterval(int)
+                  })
+            }, 120000)
         },
-        updated () {
+        beforeDestroy () {
         }
     }
 </script>

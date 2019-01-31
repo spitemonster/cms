@@ -38,7 +38,11 @@ router.post('/', (req, res) => {
 })
 
 router.get('/', (req, res) => {
-    res.status(403).send('No touching.')
+    if (!req.session.user_id) {
+        return res.status(403).send('You must be logged in to access this.')
+    }
+
+    res.status(200).send('Logged in.')
 })
 
 module.exports = router
