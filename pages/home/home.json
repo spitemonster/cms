@@ -1,28 +1,55 @@
 {
-  "id": "0eaa4f4a-6620-44db-ac6a-99c44acb32cc",
+  "id": "8140ff4b-3afd-4b0d-b215-31c5e7a712ae",
   "updatedBy": "kjohnston",
   "createdBy": "kjohnston",
-  "updatedAt": 1548963638248,
-  "createdAt": 1548963638248,
+  "updatedAt": 1549469809357,
+  "createdAt": 1549399584603,
   "name": "Home",
   "url": "/",
-  "templateUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/home_page/home_page.hbs",
-  "templateId": "ea383d1a-cbd4-400b-befa-f855b921e792",
+  "templateUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/more_fields/more_fields.hbs",
+  "templateId": "54394e73-cb7d-4b12-bfee-b12d2a7df001",
   "fields": [
     {
-      "id": "649fd46f-be50-48e0-a866-e6dfa68ff3a1",
+      "id": "1404c471-5679-4675-89af-c6aa92235ee1",
       "name": "Title",
       "type": "text",
       "required": true,
       "content": "Home"
     },
     {
-      "id": "86cca517-98a1-4a7a-bc15-216a5a127807",
-      "name": "Body",
+      "id": "cb6004fb-37c7-459d-bb17-d6e4afdcb072",
+      "name": "Tagline",
       "type": "textarea",
       "required": true,
-      "content": "Lorem ipsum dolar sit amet."
+      "content": "Tagline"
+    },
+    {
+      "id": "342b32eb-d19f-4680-921b-87e749773e98",
+      "name": "Body",
+      "type": "wysiwyg",
+      "required": true,
+      "content": "<p>Test content here my dude.<br><br>How the hell we doin, my white boys?</p>"
     }
   ],
-  "filename": "home"
+  "filename": "home",
+  "revisions": [
+    {
+      "id": "8ca0513d-49c6-49da-81de-cf0629f40d3b",
+      "updatedBy": "kjohnston",
+      "createdAt": 1549403766003,
+      "name": "Home"
+    },
+    {
+      "id": "545dff66-f5ed-45de-a1e5-2cd01abb2dc0",
+      "updatedBy": "kjohnston",
+      "createdAt": 1549403820226,
+      "name": "Home"
+    },
+    {
+      "id": "71a3c21c-26d9-4fd9-a708-710bbc052db1",
+      "updatedBy": "kjohnston",
+      "createdAt": 1549469809357,
+      "name": "Home"
+    }
+  ]
 }

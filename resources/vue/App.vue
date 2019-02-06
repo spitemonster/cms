@@ -2,19 +2,19 @@
     <main class="dashboard">
       <nav class="dashboard__nav">
           <ul>
-              <router-link tag="li" to="/">
+              <router-link tag="li" to="/admin">
                 <a>Dashboard</a>
               </router-link>
-              <router-link tag="li" to="/create/template">
+              <router-link tag="li" to="/admin/create/template">
                 <a>Create New Template</a>
               </router-link>
-              <router-link tag="li" to="/create/page">
+              <router-link tag="li" to="/admin/create/page">
                 <a>Create New Page</a>
               </router-link>
-              <router-link tag="li" to="/view/templates">
+              <router-link tag="li" to="/admin/view/templates">
                 <a>View Templates</a>
               </router-link>
-              <router-link tag="li" to="/view/pages">
+              <router-link tag="li" to="/admin/view/pages">
                 <a>View Pages</a>
               </router-link>
           </ul>
@@ -56,13 +56,12 @@
             let int = setInterval(() => {
                 axios.get('/user')
                   .then((res) => {
-                      // keep user logged in
                   })
                   .catch((err) => {
                       this.logInError = true
                       clearInterval(int)
                   })
-            }, 120000)
+            }, 60000)
         },
         beforeDestroy () {
         }

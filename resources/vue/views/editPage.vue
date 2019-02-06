@@ -43,6 +43,8 @@ export default {
                 this.fields = data.data.fields
                 this.name = data.data.name
                 this.url = data.data.url
+            }).catch((err) => {
+                console.log(err)
             })
         },
         savePage () {

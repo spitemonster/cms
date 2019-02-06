@@ -16,34 +16,41 @@ function verifyUser(userId) {
     return true
 }
 
-function findUserByUsername(username) {
+function findUserIdByUsername(username) {
     let b = Buffer.from(fs.readFileSync(`${__dirname}/../private/users.json`))
+
+    for (let user in JSON.parse(b)) {
+        if (username === JSON.parse(b)[user]['username']) {
+            return JSON.parse(b)[user]['id']
+        }
+    }
+}
+
+function findPasswordByUsername(username) {
+    let b = Buffer.from(fs.readFileSync(`${__dirname}/../private/users.json`))
+
+    for (let user in JSON.parse(b)) {
+        let u = JSON.parse(b)[user]
+
+        if (u.username === username) {
+            return u.password
+        }
+    }
 }
 
 // something similar with this. i'm uncertain about loading the entire user into the user variable but
 // i also don't know enough about it at this point to say whether it makes a difference
 // still emptying the buffer of data regardless
-function verifyPassword(username, password) {
-    let b = Buffer.from(fs.readFileSync(`${__dirname}/../private/users.json`))
-
-
-    for (let user in JSON.parse(b)) {
-        let u = JSON.parse(b)[user]
-        if (u.username === username) {
-            bcrypt.compare(password, u.password, (err, ver) => {
-
-                if (err) {
-                    console.log(err)
-                    b.fill(0)
-                    return false
-                }
-
-                console.log(ver)
-                b.fill(0)
-                return true
-            })
+function verifyPassword(username, password, req, res) {
+    bcrypt.compare(password, findPasswordByUsername(username), (err, ver) => {
+        if (err) {
+            console.log('wrong')
+            console.log(err)
         }
-    }
+        req.session.user_id = findUserIdByUsername(username)
+        req.session.username = username
+        res.status(200).redirect('/admin')
+    })
 }
 
 function handleErrors (err) {

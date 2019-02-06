@@ -14,12 +14,7 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-
-    if (!methods.verifyPassword(req.body.username, req.body.password)) {
-        return res.status(401).send('Username or password was incorrect. Please try again.')
-    }
-
-    res.status(200).redirect('/admin')
+    methods.verifyPassword(req.body.username, req.body.password, req, res)
 })
 
 module.exports = router

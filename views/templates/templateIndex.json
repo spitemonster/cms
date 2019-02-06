@@ -10,9 +10,7 @@
     "createdAt": 1548709320761,
     "updatedAt": 1548709320761,
     "revisions": 0,
-    "pages": [
-      "0eaa4f4a-6620-44db-ac6a-99c44acb32cc"
-    ]
+    "pages": []
   },
   "fd7d66b0-2cce-457e-aefd-528f8cce29dd": {
     "name": "Interior Page",
@@ -26,5 +24,33 @@
     "updatedAt": 1548963504051,
     "revisions": 0,
     "pages": []
+  },
+  "c01260c6-60d6-47cb-a2ec-933e4dc47342": {
+    "name": "test",
+    "id": "c01260c6-60d6-47cb-a2ec-933e4dc47342",
+    "templateUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/test/test.hbs",
+    "templateFileName": "test.hbs",
+    "dataUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/test/test.json",
+    "dataFileName": "test.json",
+    "loc": "/test",
+    "createdAt": 1549394157106,
+    "updatedAt": 1549394157106,
+    "revisions": {},
+    "pages": []
+  },
+  "54394e73-cb7d-4b12-bfee-b12d2a7df001": {
+    "name": "More Fields",
+    "id": "54394e73-cb7d-4b12-bfee-b12d2a7df001",
+    "templateUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/more_fields/more_fields.hbs",
+    "templateFileName": "more_fields.hbs",
+    "dataUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/more_fields/more_fields.json",
+    "dataFileName": "more_fields.json",
+    "loc": "/more_fields",
+    "createdAt": 1549394234976,
+    "updatedAt": 1549394234976,
+    "revisions": {},
+    "pages": [
+      "8140ff4b-3afd-4b0d-b215-31c5e7a712ae"
+    ]
   }
 }

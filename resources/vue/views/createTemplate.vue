@@ -5,6 +5,8 @@
       <select name="field-type" id="fieldSelector">
           <option value="text">Text</option>
           <option value="textarea">Text Area</option>
+          <option value="wysiwyg">WYSIWYG</option>}
+          option
       </select>
 
       <button @click="addField">Add Field</button>

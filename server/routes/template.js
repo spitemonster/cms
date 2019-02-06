@@ -56,11 +56,12 @@ router.post('/', (req, res) => {
     templateData.loc = `/${templateFileName}`
     templateData.createdAt = Date.now()
     templateData.updatedAt = templateData.createdAt
-    templateData.revisions = 0
+    templateData.revisions = {}
 
     let valid = ajv.validate(templateSchema, templateData)
 
     if (!valid) {
+        console.log(ajv.errors)
         return res.status(422).send('There was an error formatting your data. Please try again.')
     }
 

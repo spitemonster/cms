@@ -129,7 +129,6 @@ router.get('/:pageId/revision/:revId', (req, res) => {
 
 router.post('/', (req, res) => {
     // create a page
-
     // create empty object for page data
     let pageData = {}
 
@@ -158,6 +157,8 @@ router.post('/', (req, res) => {
     let valid = ajv.validate(pageSchema, pageData)
 
     if (!valid) {
+        console.log(ajv.errors)
+        console.log(req.session.username)
         return res.status(422).send('There was an error formatting your data. Please try again.')
     }
 

@@ -2,7 +2,7 @@
     <div>
         <h1>Create Page</h1>
         <input type="text" id="pageName">
-        <input type="text" id="pageUrl" @change="testPageUrl">
+        <input type="text" id="pageUrl" @input="filterInput" @change="testPageUrl" pattern="[-/_a-zA-Z0-9]+" value="/">
         <select id="template" @change="selectTemplate">
             <option value="">Choose Template</option>
             <option v-for="template, k in templates" :value="k">{{ template.name }}</option>
@@ -44,22 +44,49 @@
                         })
                 }
             },
+            filterInput(e) {
+                e.target.value = e.target.value.replace(/[\s~!@#$%^&*()+={}|\\:;"'<>,.?]+/g, '')
+            },
             testPageUrl (e) {
+                let v = e.target.value
+                let vs = v.split('')
+                if (vs[0] !== '/') {
+                    e.target.value = `/${v}`
+                }
+
+                axios.get(`v`)
+                    .then((res) => {
+                        console.log(res)
+                    })
+                    .catch((err) => {
+                        console.log('not in use')
+                    })
             },
             createPage () {
+                let url = document.querySelector('#pageUrl')
                 let headers = { 'Content-Type': 'application/json' }
 
 
                 let pageData = {}
+
                 pageData.name = document.querySelector('#pageName').value
-                pageData.url = document.querySelector('#pageUrl').value
+                pageData.url = url.value
                 pageData.templateUrl = this.selectedTemplate.templateUrl
                 pageData.templateId = this.selectedTemplate.id
                 pageData.fields = this.fields
 
+                if (!url.checkValidity) {
+                    url.classList.add('invalid')
+                    return
+                }
+
                 axios.post('/page', pageData, headers)
                 .then((res) => {
-                    console.log(res)
+                    if (res.status === 200) {
+                        this.$router.push({ name: 'viewPages' })
+                    }
+                }).catch((err) => {
+
                 })
             }
         },

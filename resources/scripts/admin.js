@@ -22,13 +22,14 @@ Vue.use(Sortable)
 Vue.use(Router)
 
 const router = new Router({
+    mode: 'history',
     routes: [
-        { path: '/', name: 'admin', component: dashboard },
-        { path: '/create/template', name: 'createTemplate', component: createTemplate },
-        { path: '/create/page', name: 'createPage', component: createPage },
-        { path: '/view/pages', name: 'viewPages', component: viewPages },
-        { path: '/view/templates', name: 'viewTemplates', component: viewTemplates },
-        { path: '/page/:page_id/edit', name: 'editPages', component: editPage }
+        { path: '/admin', name: 'admin', component: dashboard },
+        { path: '/admin/create/template', name: 'createTemplate', component: createTemplate },
+        { path: '/admin/create/page', name: 'createPage', component: createPage },
+        { path: '/admin/view/pages', name: 'viewPages', component: viewPages },
+        { path: '/admin/view/templates', name: 'viewTemplates', component: viewTemplates },
+        { path: '/admin/page/:page_id/edit', name: 'editPages', component: editPage }
     ]
 })
 

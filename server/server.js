@@ -47,37 +47,87 @@ server.use('/logout', logout)
 server.use('/user', user)
 server.use('/test', test)
 
-server.get(`/:slug?`, (req, res) => {
+server.get(`/*`, (req, res) => {
+    // let path = req.path
+    // let
+    // // fs.readFile
+
+    // fs.readFile(`${__dirname}/../pages/pageIndex.json`, (err, data) => {
+    //     let pages = JSON.parse(data)
+    //     let pageNum = Object.keys(pages).length
+    //     let index = 1
+
+    //     if (err) {
+    //         methods.handleErrors(err)
+    //     }
+
+    //     for (let page in pages) {
+
+    //         let p = pages[page]
+
+    //         if (p.url !== path) {
+    //             console.log('bouncing')
+    //             index = index + 1
+    //             console.log(index)
+    //             return
+    //         }
+
+    //         res.send(p.name)
+
+    //         fs.readFile(`${__dirname}/../pages/${p.filename}/${p.filename}.json`, (err, data) => {
+    //             let pageData = JSON.parse(data)
+
+    //             if (err) {
+    //                 return res.redirect('/')
+    //             }
+
+    //             pageData.fields.forEach((field) => {
+    //                 pd[field.name.toLowerCase()] = field.content
+    //             })
+
+    //             return res.render(pageData.templateUrl, pd)
+    //         })
+    //     }
+    // })
+
+    // return res.status(404).send('no page found')
+
+    let path = req.path
+    let pd = {}
+    let pname
 
     fs.readFile(`${__dirname}/../pages/pageIndex.json`, (err, data) => {
-        let pages = JSON.parse(data)
-        let pd = {}
+        let pageData = JSON.parse(data)
+        let k = Object.keys(pageData)
+        let l = k.length
+        let i = 0
 
-        if (err) {
-            methods.handleErrors(err)
+        while (i < l) {
+            let p = pageData[k[i]]
+            if (p.url === path) {
+                pname = p.filename
+                break
+            }
+            i++
         }
 
-        for (let page in pages) {
-            let p = pages[page]
+        if (!pname) {
+            return res.status(404).send('Not found')
+        }
 
-            if (p.url !== req.path) {
-                continue
+        fs.readFile(`${__dirname}/../pages/${pname}/${pname}.json`, (err, data) => {
+            let pageData = JSON.parse(data)
+
+            if (err) {
+                return res.status(404).send('Not found')
             }
 
-            fs.readFile(`${__dirname}/../pages/${p.filename}/${p.filename}.json`, (err, data) => {
-                let pageData = JSON.parse(data)
-
-                if (err) {
-                    return res.redirect('/')
-                }
-
-                pageData.fields.forEach((field) => {
-                    pd[field.name.toLowerCase()] = field.content
-                })
-
-                return res.render(pageData.templateUrl, pd)
+            pageData.fields.forEach((field) => {
+                pd[field.name.toLowerCase()] = field.content
             })
-        }
+
+            return res.render(pageData.templateUrl, pd)
+        })
     })
 })
 
