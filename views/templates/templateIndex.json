@@ -1,56 +1,17 @@
 {
-  "ea383d1a-cbd4-400b-befa-f855b921e792": {
-    "name": "Home Page",
-    "id": "ea383d1a-cbd4-400b-befa-f855b921e792",
-    "templateUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/home_page/home_page.hbs",
-    "templateFileName": "home_page.hbs",
-    "dataUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/home_page/home_page.json",
-    "dataFileName": "home_page.json",
-    "loc": "/home_page",
-    "createdAt": 1548709320761,
-    "updatedAt": 1548709320761,
-    "revisions": 0,
-    "pages": []
-  },
-  "fd7d66b0-2cce-457e-aefd-528f8cce29dd": {
-    "name": "Interior Page",
-    "id": "fd7d66b0-2cce-457e-aefd-528f8cce29dd",
-    "templateUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/interior_page/interior_page.hbs",
-    "templateFileName": "interior_page.hbs",
-    "dataUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/interior_page/interior_page.json",
-    "dataFileName": "interior_page.json",
-    "loc": "/interior_page",
-    "createdAt": 1548963504051,
-    "updatedAt": 1548963504051,
-    "revisions": 0,
-    "pages": []
-  },
-  "c01260c6-60d6-47cb-a2ec-933e4dc47342": {
-    "name": "test",
-    "id": "c01260c6-60d6-47cb-a2ec-933e4dc47342",
-    "templateUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/test/test.hbs",
-    "templateFileName": "test.hbs",
-    "dataUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/test/test.json",
-    "dataFileName": "test.json",
-    "loc": "/test",
-    "createdAt": 1549394157106,
-    "updatedAt": 1549394157106,
-    "revisions": {},
-    "pages": []
-  },
-  "54394e73-cb7d-4b12-bfee-b12d2a7df001": {
-    "name": "More Fields",
-    "id": "54394e73-cb7d-4b12-bfee-b12d2a7df001",
-    "templateUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/more_fields/more_fields.hbs",
-    "templateFileName": "more_fields.hbs",
-    "dataUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/more_fields/more_fields.json",
-    "dataFileName": "more_fields.json",
-    "loc": "/more_fields",
-    "createdAt": 1549394234976,
-    "updatedAt": 1549394234976,
-    "revisions": {},
+  "f71d95a6-c756-4819-888c-e41aec565862": {
+    "name": "Home",
+    "id": "f71d95a6-c756-4819-888c-e41aec565862",
+    "templateUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/home/home.hbs",
+    "templateFileName": "home.hbs",
+    "dataUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/home/home.json",
+    "dataFileName": "home.json",
+    "loc": "/home",
+    "createdAt": 1549998203687,
+    "updatedAt": 1549998203687,
+    "revisions": [],
     "pages": [
-      "8140ff4b-3afd-4b0d-b215-31c5e7a712ae"
+      "996671e5-faf0-484b-a4b6-c7c15d3392ab"
     ]
   }
 }

@@ -11,6 +11,7 @@ import createPage from '../vue/views/createPage.vue'
 import viewPages from '../vue/views/pages.vue'
 import viewTemplates from '../vue/views/templates.vue'
 import editPage from '../vue/views/editPage.vue'
+import editTemplate from '../vue/views/editTemplate.vue'
 
 // import components
 
@@ -29,7 +30,8 @@ const router = new Router({
         { path: '/admin/create/page', name: 'createPage', component: createPage },
         { path: '/admin/view/pages', name: 'viewPages', component: viewPages },
         { path: '/admin/view/templates', name: 'viewTemplates', component: viewTemplates },
-        { path: '/admin/page/:page_id/edit', name: 'editPages', component: editPage }
+        { path: '/admin/page/:page_id/edit', name: 'editPages', component: editPage },
+        { path: '/admin/template/:template_id/edit', name: 'editTemplates', component: editTemplate }
     ]
 })
 

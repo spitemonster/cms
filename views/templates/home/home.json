@@ -1,0 +1,28 @@
+{
+  "name": "Home",
+  "id": "f71d95a6-c756-4819-888c-e41aec565862",
+  "fields": [
+    {
+      "id": "a0e8ac34-d828-49b0-acac-35626173ff96",
+      "name": "Title",
+      "type": "text",
+      "required": true
+    },
+    {
+      "id": "a957a58e-f819-475b-877d-1c432182e070",
+      "name": "Body",
+      "type": "wysiwyg",
+      "required": true
+    }
+  ],
+  "fileName": "home",
+  "templateUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/home/home.hbs",
+  "dataUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/home/home.json",
+  "loc": "/home",
+  "createdAt": 1549998203687,
+  "updatedAt": 1549998203687,
+  "revisions": [],
+  "pages": [
+    "996671e5-faf0-484b-a4b6-c7c15d3392ab"
+  ]
+}

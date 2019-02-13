@@ -9,7 +9,8 @@ trix-editor {
   margin: 0;
   padding: 0.4em 0.6em;
   min-height: 5em;
-  outline: none; }
+  outline: none;
+  background: white; }
 trix-toolbar * {
   box-sizing: border-box; }
 trix-toolbar .trix-button-row {
@@ -46,7 +47,7 @@ trix-toolbar .trix-button {
   border: none;
   border-bottom: 1px solid #ddd;
   border-radius: 0;
-  background: transparent; }
+  background: white; }
   trix-toolbar .trix-button:not(:first-child) {
     border-left: 1px solid #ccc; }
   trix-toolbar .trix-button.trix-active {

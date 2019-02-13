@@ -150,15 +150,34 @@ router.post('/', (req, res) => {
     pageMeta.templateUrl = pageData.templateUrl
     pageMeta.templateId = pageData.templateId
 
-    let templateIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../views/templates/templateIndex.json`))
+    fs.readFile(`${__dirname}/../../views/templates/templateIndex.json`, (err, data) => {
+        if (err) {
+            // handle error
+        }
 
-    templateIndex[pageData.templateId].pages.push(pageData.id)
+        let templateIndex = JSON.parse(data)
+
+        let templateUrl = templateIndex[pageData.templateId].dataUrl
+
+        templateIndex[pageData.templateId].pages.push(pageData.id)
+
+        fs.readFile(templateUrl, (err, data) => {
+            if (err) {
+                // handle error
+            }
+
+            let templateData = JSON.parse(data)
+            templateData.pages.push(pageData.id)
+
+            fs.writeFileSync(templateUrl, JSON.stringify(templateData, undefined, 2), 'utf8')
+        })
+
+        fs.writeFileSync(`${__dirname}/../../views/templates/templateIndex.json`, JSON.stringify(templateIndex, undefined, 2), 'utf8')
+    })
 
     let valid = ajv.validate(pageSchema, pageData)
 
     if (!valid) {
-        console.log(ajv.errors)
-        console.log(req.session.username)
         return res.status(422).send('There was an error formatting your data. Please try again.')
     }
 
@@ -174,7 +193,7 @@ router.post('/', (req, res) => {
 
         fs.writeFileSync(`${__dirname}/../../pages/pageIndex.json`, JSON.stringify(pageIndex, undefined, 2), 'utf8')
         fs.mkdirSync(`${__dirname}/../../pages/${pageData.filename}`)
-        fs.writeFileSync(`${__dirname}/../../views/templates/templateIndex.json`, JSON.stringify(templateIndex, undefined, 2), 'utf8')
+        // fs.writeFileSync(`${__dirname}/../../views/templates/templateIndex.json`, JSON.stringify(templateIndex, undefined, 2), 'utf8')
         fs.writeFileSync(`${__dirname}/../../pages/${pageData.filename}/${pageData.filename}.json`, JSON.stringify(pageData, undefined, 2), 'utf8')
     })
 
@@ -233,17 +252,33 @@ router.patch('/:pageId', (req, res) => {
 
 router.delete('/:pageId', (req, res) => {
     let pageId = req.params.pageId
-
     let pageIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../pages/pageIndex.json`))
-    let templateIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../views/templates/templateIndex.json`))
-
     let targetTemplate = pageIndex[pageId].templateId
 
-    templateIndex[targetTemplate].pages.splice(templateIndex[targetTemplate].pages.indexOf(pageId), 1)
+    // delete reference to deleted page from template index and template files
+    fs.readFile(`${__dirname}/../../views/templates/templateIndex.json`, (err, data) => {
+        if (err) {
+            // handle err
+        }
+
+        let templateIndex = JSON.parse(data)
+        templateIndex[targetTemplate].pages.splice(templateIndex[targetTemplate].pages.indexOf(pageId), 1)
+
+        fs.readFile(templateIndex[targetTemplate].dataUrl, (err, data) => {
+            let templateData = JSON.parse(data)
+
+            templateData.pages.splice(templateData.pages.indexOf(pageId), 1)
+
+            fs.writeFileSync(templateIndex[targetTemplate].dataUrl, JSON.stringify(templateData, undefined, 2), 'utf8')
+        })
+
+        fs.writeFileSync(`${__dirname}/../../views/templates/templateIndex.json`, JSON.stringify(templateIndex, undefined, 2), 'utf8')
+    })
+
+
 
     rimraf(`${__dirname}/../../pages/${pageIndex[pageId].filename}`, () => {
         delete pageIndex[pageId]
-        fs.writeFileSync(`${__dirname}/../../views/templates/templateIndex.json`, JSON.stringify(templateIndex, undefined, 2), 'utf8')
         fs.writeFileSync(`${__dirname}/../../pages/pageIndex.json`, JSON.stringify(pageIndex, undefined, 2), 'utf8')
     })
 

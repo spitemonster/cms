@@ -1,55 +1,28 @@
 {
-  "id": "8140ff4b-3afd-4b0d-b215-31c5e7a712ae",
+  "id": "996671e5-faf0-484b-a4b6-c7c15d3392ab",
   "updatedBy": "kjohnston",
   "createdBy": "kjohnston",
-  "updatedAt": 1549469809357,
-  "createdAt": 1549399584603,
+  "updatedAt": 1550008102930,
+  "createdAt": 1550008102930,
   "name": "Home",
   "url": "/",
-  "templateUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/more_fields/more_fields.hbs",
-  "templateId": "54394e73-cb7d-4b12-bfee-b12d2a7df001",
+  "templateUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/home/home.hbs",
+  "templateId": "f71d95a6-c756-4819-888c-e41aec565862",
   "fields": [
     {
-      "id": "1404c471-5679-4675-89af-c6aa92235ee1",
+      "id": "a0e8ac34-d828-49b0-acac-35626173ff96",
       "name": "Title",
       "type": "text",
       "required": true,
       "content": "Home"
     },
     {
-      "id": "cb6004fb-37c7-459d-bb17-d6e4afdcb072",
-      "name": "Tagline",
-      "type": "textarea",
-      "required": true,
-      "content": "Tagline"
-    },
-    {
-      "id": "342b32eb-d19f-4680-921b-87e749773e98",
+      "id": "a957a58e-f819-475b-877d-1c432182e070",
       "name": "Body",
       "type": "wysiwyg",
       "required": true,
-      "content": "<p>Test content here my dude.<br><br>How the hell we doin, my white boys?</p>"
+      "content": "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aliquam malesuada bibendum arcu vitae elementum curabitur. Quisque sagittis purus sit amet volutpat consequat mauris nunc. Neque egestas congue quisque egestas diam in. Ut tristique et egestas quis ipsum suspendisse. Magna etiam tempor orci eu. Iaculis at erat pellentesque adipiscing commodo elit at imperdiet dui. Consectetur purus ut faucibus pulvinar elementum integer enim neque volutpat. Aliquam vestibulum morbi blandit cursus risus at. Ut sem nulla pharetra diam sit amet nisl. Facilisi cras fermentum odio eu feugiat pretium nibh. Nulla porttitor massa id neque aliquam vestibulum. Pellentesque dignissim enim sit amet venenatis urna cursus. Aliquam vestibulum morbi blandit cursus risus. Volutpat consequat mauris nunc congue. Nisi est sit amet facilisis magna.</p>"
     }
   ],
-  "filename": "home",
-  "revisions": [
-    {
-      "id": "8ca0513d-49c6-49da-81de-cf0629f40d3b",
-      "updatedBy": "kjohnston",
-      "createdAt": 1549403766003,
-      "name": "Home"
-    },
-    {
-      "id": "545dff66-f5ed-45de-a1e5-2cd01abb2dc0",
-      "updatedBy": "kjohnston",
-      "createdAt": 1549403820226,
-      "name": "Home"
-    },
-    {
-      "id": "71a3c21c-26d9-4fd9-a708-710bbc052db1",
-      "updatedBy": "kjohnston",
-      "createdAt": 1549469809357,
-      "name": "Home"
-    }
-  ]
+  "filename": "home"
 }

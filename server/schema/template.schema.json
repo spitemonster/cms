@@ -14,6 +14,10 @@
             "description" : "The template's name",
             "type" : "string"
         },
+        "fileName" : {
+            "description" : "Stringified version of filename",
+            "type" : "string"
+        },
         "fields" : {
             "description" : "A collection of fields and their type for the template",
             "type" : "array"
@@ -37,13 +41,25 @@
             "description" : "Date at which the template was created",
             "type" : "integer"
         },
+        "createdBy" : {
+            "description" : "Name of user who created the template",
+            "type" : "string"
+        },
         "updatedAt" : {
             "description" : "Date at which the template was last updated",
             "type" : "integer"
         },
+        "updatedBy" : {
+            "description" : "Last user to update the template",
+            "type" : "string"
+        },
+        "pages" : {
+            "description" : "A list of page ids that utilize the template",
+            "type" : "array"
+        },
         "revisions" : {
             "description" : "A collection of revisions to the template",
-            "type" : "object"
+            "type" : "array"
         }
     },
     "required" : ["id", "name", "fields", "templateUrl", "dataUrl", "loc", "createdAt", "updatedAt"],

@@ -42,21 +42,42 @@ router.get('/', (req, res) => {
     })
 })
 
+router.get('/:templateId', (req, res) => {
+    fs.readFile(`${__dirname}/../../views/templates/templateIndex.json`, (err, data) => {
+        if (err) {
+            return res.status(400).send('No templates.')
+        }
+
+        let templates = JSON.parse(data)
+        let targetTemplate = templates[req.params.templateId].dataUrl
+
+        fs.readFile(`${targetTemplate}`, (err, data) => {
+            if (err) {
+                return res.status(404).send('Template not found')
+            }
+
+            let template = JSON.parse(data)
+
+            res.status(200).json(template)
+        })
+    })
+})
+
 router.post('/', (req, res) => {
     // get template data from submit, create folder for template files, update template index file, write template json and hbs template view file
-
     let templateData = req.body
-
     let templateFileName = req.body.name.replace(/[^A-Z0-9]/ig, '_').toLowerCase()
 
     fs.mkdirSync(`${__dirname}/../../views/templates/${templateFileName}`)
 
+    templateData.fileName = templateFileName
     templateData.templateUrl = `${__dirname}/../../views/templates/${templateFileName}/${templateFileName}.hbs`
     templateData.dataUrl = `${__dirname}/../../views/templates/${templateFileName}/${templateFileName}.json`
     templateData.loc = `/${templateFileName}`
     templateData.createdAt = Date.now()
     templateData.updatedAt = templateData.createdAt
-    templateData.revisions = {}
+    templateData.revisions = []
+    templateData.pages = []
 
     let valid = ajv.validate(templateSchema, templateData)
 
@@ -65,12 +86,14 @@ router.post('/', (req, res) => {
         return res.status(422).send('There was an error formatting your data. Please try again.')
     }
 
-    fs.access(`${__dirname}/../../views/templates/templateIndex.json`, (err) => {
+    fs.readFile(`${__dirname}/../../views/templates/templateIndex.json`, (err, data) => {
         if (err) {
-            let o = {}
-            fs.writeFileSync(`${__dirname}/../../views/templates/templateIndex.json`, JSON.stringify(o), 'utf8')
+            // handle error
         }
-        let templateIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../views/templates/templateIndex.json`))
+
+        let templateIndex = JSON.parse(data)
+
+        console.log(templateIndex)
 
         let templateIndexData = {
             name: templateData.name,
@@ -96,8 +119,51 @@ router.post('/', (req, res) => {
     })
 })
 
-router.put('/', (req, res) => {
-    res.status(200).send('delete this template')
+router.patch('/:templateId', (req, res) => {
+    let tid = req.params.templateId
+
+    fs.readFile(`${__dirname}/../../views/templates/templateIndex.json`, (err, data) => {
+        if (err) {
+            return res.status(400).send('No templates')
+        }
+
+        let templateIndex = JSON.parse(data)
+
+        fs.readFile(`${templateIndex[tid].dataUrl}`, (err, data) => {
+            if (err) {
+                return res.status(404).send('Template not found')
+            }
+
+            let templateData = JSON.parse(data)
+
+            return res.status(200).json(templateData)
+            // let fileName = templateData.fileName
+            // let newData = {...templateData, ...req.body}
+
+            // if (!newData.revisions) {
+            //     newData.revisions = []
+            // }
+
+            // let revId = uuidv4()
+            // let r = {}
+            // r.id = templateData.revisionId = revId
+            // newData.updatedBy = r.updatedBy = req.session.username
+            // newData.updatedAt = templateIndex[tid].updatedAt = r.createdAt = Date.now()
+            // r.name = newData.name
+            // newData.revisions.push(r)
+
+            // let valid = ajv.validate(templateSchema, newData)
+
+            // if (!valid) {
+            //     return res.status(422).send('There was an error formatting your data. Please try again.')
+            // }
+
+            // fs.writeFileSync(`${__dirname}/../../views/templates/${fileName}/${fileName}-revision-${revId}.json`, JSON.stringify(templateData, undefined, 2), 'utf8')
+            // fs.writeFileSync(`${__dirname}/../../views/templates/templateIndex.json`, JSON.stringify(templateIndex, undefined, 2), 'utf8')
+            // fs.writeFileSync(`${__dirname}/../../views/templates/${fileName}/${fileName}.json`, JSON.stringify(newData, undefined, 2), 'utf8')
+        })
+    })
+    // return res.status(200).send(`Updating template with the ID of ${req.params.templateId}`)
 })
 
 router.delete('/:templateId', (req, res) => {

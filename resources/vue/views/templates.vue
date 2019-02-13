@@ -1,7 +1,7 @@
 <template lang="html">
   <div>
     <h1>View Templates</h1>
-    <h3 v-for="template, k in templates"> {{ template.name }}</h3>
+    <h3 v-for="template, k in templates" > {{ template.name }} <button @click="deleteTemplate(k)">Delete</button> <router-link tag="span" :to="'/admin/template/' + k + '/edit'"><a>Edit Template</a></router-link></h3>
   </div>
 </template>
 <script>
@@ -19,7 +19,15 @@
         },
         props: [],
         methods: {
-
+            deleteTemplate(templateId) {
+                axios.delete(`/template/${templateId}`)
+                    .then((res) => {
+                        this.$delete(this.templates, templateId)
+                    })
+                    .catch((err) => {
+                        console.log(err)
+                    })
+            }
         },
         beforeCreate () {
             axios.get('/template')

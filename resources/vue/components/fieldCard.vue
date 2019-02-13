@@ -16,27 +16,27 @@
     import Bus from '../../scripts/admin.js'
 
     export default {
-      name: 'inputField',
-      data () {
-        return {
-          fieldName: '',
-          fieldId: this.field.id,
-          fieldRequired: false,
-          fieldType: this.field.text
-        }
-      },
-      props: ['field'],
-      methods: {
-        deleteField () {
-          Bus.$emit('delete', this.fieldId)
+        name: 'inputField',
+        data () {
+            return {
+                fieldName: this.field.name ? this.field.name : '',
+                fieldId: this.field.id,
+                fieldRequired: this.field.required ? this.field.required : false,
+                fieldType: this.field.text
+            }
         },
-        requireField () {
-          Bus.$emit('requireField', { id: this.fieldId, required: this.fieldRequired })
-        },
-        nameField () {
-          Bus.$emit('nameField', { id: this.fieldId, name: this.fieldName })
+        props: ['field'],
+        methods: {
+            deleteField () {
+                Bus.$emit('delete', this.fieldId)
+            },
+            requireField () {
+                Bus.$emit('requireField', { id: this.fieldId, required: this.fieldRequired })
+            },
+            nameField () {
+                Bus.$emit('nameField', { id: this.fieldId, name: this.fieldName })
+            }
         }
-      }
     }
 </script>
 <style lang="scss">
