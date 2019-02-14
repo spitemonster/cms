@@ -1,11 +1,31 @@
 {
   "996671e5-faf0-484b-a4b6-c7c15d3392ab": {
     "id": "996671e5-faf0-484b-a4b6-c7c15d3392ab",
-    "updatedAt": 1550008102930,
+    "updatedAt": 1550180175264,
     "createdAt": 1550008102930,
     "filename": "home",
     "name": "Home",
     "url": "/",
+    "templateUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/home/home.hbs",
+    "templateId": "f71d95a6-c756-4819-888c-e41aec565862"
+  },
+  "b9c76500-11d1-4c1d-a875-8076849803c9": {
+    "id": "b9c76500-11d1-4c1d-a875-8076849803c9",
+    "updatedAt": 1550179611534,
+    "createdAt": 1550179611534,
+    "filename": "about",
+    "name": "About",
+    "url": "/about",
+    "templateUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/home/home.hbs",
+    "templateId": "f71d95a6-c756-4819-888c-e41aec565862"
+  },
+  "886fbd23-8eb0-4383-97c6-6ab30d5e1c57": {
+    "id": "886fbd23-8eb0-4383-97c6-6ab30d5e1c57",
+    "updatedAt": 1550181314817,
+    "createdAt": 1550181314817,
+    "filename": "bio",
+    "name": "Bio",
+    "url": "/bio",
     "templateUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/home/home.hbs",
     "templateId": "f71d95a6-c756-4819-888c-e41aec565862"
   }

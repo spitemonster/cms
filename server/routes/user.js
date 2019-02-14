@@ -17,7 +17,7 @@ router.post('/', (req, res) => {
 
         for (let user in users) {
             let u = users[user]
-            if (u.username === req.body.username || u.email === req.body.email) {
+            if (u.username === req.body.user.username || u.email === req.body.email) {
                 return res.send('User with these credentials exists')
             }
         }
@@ -38,11 +38,11 @@ router.post('/', (req, res) => {
 })
 
 router.get('/', (req, res) => {
-    if (!req.session.user_id) {
+    if (typeof req.session.user === 'undefined' || !req.session.user.id) {
         return res.status(403).send('You must be logged in to access this.')
     }
 
-    res.status(200).send('Logged in.')
+    res.status(200).send(req.session.user)
 })
 
 module.exports = router

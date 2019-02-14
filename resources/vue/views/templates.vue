@@ -22,18 +22,29 @@
             deleteTemplate(templateId) {
                 axios.delete(`/template/${templateId}`)
                     .then((res) => {
+                        let growlerData = {
+                            mode: 'success',
+                            message: 'Template successfully deleted'
+                        }
                         this.$delete(this.templates, templateId)
+
+                        Bus.$emit('growl', growlerData)
                     })
                     .catch((err) => {
-                        console.log(err)
+                        let growlerData = {
+                            mode: 'alert',
+                            message: err.response.data
+                        }
+
+                        Bus.$emit('growl', growlerData)
                     })
             }
         },
         beforeCreate () {
             axios.get('/template')
-          .then((res) => {
-              this.templates = res.data
-          })
+              .then((res) => {
+                  this.templates = res.data
+              })
         }
     }
 </script>

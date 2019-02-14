@@ -13,6 +13,11 @@ router.get('/', (req, res) => {
     res.status(200).send('All good')
 })
 
+router.post('/initialize', (req, res) => {
+    methods.initialize()
+    res.status(200).send('all good')
+})
+
 router.post('/user', (req, res) => {
     let schema = JSON.parse(fs.readFileSync(`${__dirname}/../schema/user.schema.json`))
     let valid = ajv.validate(schema, req.body)

@@ -29,7 +29,11 @@
 
                 axios.patch(`/template/${this.$route.params.template_id}`, templateData, headers)
                     .then((res) => {
-                        console.log(res)
+                        let growlerData = {
+                            mode: 'success',
+                            message: 'Template successfully updated'
+                        }
+                        Bus.$emit('growl', growlerData)
                     })
 
             }
@@ -45,6 +49,14 @@
                 })
         },
         mounted() {
+            document.addEventListener('keydown', (e) => {
+                if (e.metaKey && e.which == 83) {
+                    e.preventDefault()
+
+                    this.saveTemplate()
+                }
+            })
+
             Bus.$on('nameField', (f) => {
                 this.fields.forEach((field) => {
                     if (f.id === field.id) {

@@ -137,33 +137,8 @@ router.patch('/:templateId', (req, res) => {
             let templateData = JSON.parse(data)
 
             return res.status(200).json(templateData)
-            // let fileName = templateData.fileName
-            // let newData = {...templateData, ...req.body}
-
-            // if (!newData.revisions) {
-            //     newData.revisions = []
-            // }
-
-            // let revId = uuidv4()
-            // let r = {}
-            // r.id = templateData.revisionId = revId
-            // newData.updatedBy = r.updatedBy = req.session.username
-            // newData.updatedAt = templateIndex[tid].updatedAt = r.createdAt = Date.now()
-            // r.name = newData.name
-            // newData.revisions.push(r)
-
-            // let valid = ajv.validate(templateSchema, newData)
-
-            // if (!valid) {
-            //     return res.status(422).send('There was an error formatting your data. Please try again.')
-            // }
-
-            // fs.writeFileSync(`${__dirname}/../../views/templates/${fileName}/${fileName}-revision-${revId}.json`, JSON.stringify(templateData, undefined, 2), 'utf8')
-            // fs.writeFileSync(`${__dirname}/../../views/templates/templateIndex.json`, JSON.stringify(templateIndex, undefined, 2), 'utf8')
-            // fs.writeFileSync(`${__dirname}/../../views/templates/${fileName}/${fileName}.json`, JSON.stringify(newData, undefined, 2), 'utf8')
         })
     })
-    // return res.status(200).send(`Updating template with the ID of ${req.params.templateId}`)
 })
 
 router.delete('/:templateId', (req, res) => {

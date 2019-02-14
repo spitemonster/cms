@@ -18,6 +18,7 @@ let login = require('./routes/login.js')
 let logout = require('./routes/logout.js')
 let user = require('./routes/user.js')
 let test = require('./routes/test.js')
+let posts = require('./routes/posts.js')
 
 let hour = 3600000
 
@@ -46,52 +47,9 @@ server.use('/login', login)
 server.use('/logout', logout)
 server.use('/user', user)
 server.use('/test', test)
+server.use('/posts', posts)
 
 server.get(`/*`, (req, res) => {
-    // let path = req.path
-    // let
-    // // fs.readFile
-
-    // fs.readFile(`${__dirname}/../pages/pageIndex.json`, (err, data) => {
-    //     let pages = JSON.parse(data)
-    //     let pageNum = Object.keys(pages).length
-    //     let index = 1
-
-    //     if (err) {
-    //         methods.handleErrors(err)
-    //     }
-
-    //     for (let page in pages) {
-
-    //         let p = pages[page]
-
-    //         if (p.url !== path) {
-    //             console.log('bouncing')
-    //             index = index + 1
-    //             console.log(index)
-    //             return
-    //         }
-
-    //         res.send(p.name)
-
-    //         fs.readFile(`${__dirname}/../pages/${p.filename}/${p.filename}.json`, (err, data) => {
-    //             let pageData = JSON.parse(data)
-
-    //             if (err) {
-    //                 return res.redirect('/')
-    //             }
-
-    //             pageData.fields.forEach((field) => {
-    //                 pd[field.name.toLowerCase()] = field.content
-    //             })
-
-    //             return res.render(pageData.templateUrl, pd)
-    //         })
-    //     }
-    // })
-
-    // return res.status(404).send('no page found')
-
     let path = req.path
     let pd = {}
     let pname

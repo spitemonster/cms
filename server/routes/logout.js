@@ -1,13 +1,12 @@
 const express = require('express')
-const session = require('express-session')
+const methods = require('../methods.js')
 
 let router = express.Router()
 
 router.get('/', (req, res) => {
     req.session.destroy((err) => {
         if (err) {
-            // handle error
-            console.log(err)
+            methods.handleError(err)
         }
 
         res.redirect('/login')

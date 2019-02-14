@@ -54,14 +54,14 @@
                     fields: this.fields
                 }
 
-          // let data = JSON.stringify(template)
-
                 axios.post('/template', template, headers)
-            .then((res) => {
-                console.log(res)
-            })
-
-                console.log(template)
+                    .then((res) => {
+                        let growlerData = {
+                            mode: 'success',
+                            message: 'Template successfully created'
+                        }
+                        Bus.$emit('growl', growlerData)
+                    })
             }
         },
         components: {
@@ -69,6 +69,14 @@
             draggable
         },
         mounted () {
+            document.addEventListener('keydown', (e) => {
+                if (e.metaKey && e.which == 83) {
+                    e.preventDefault()
+
+                    this.saveTemplate()
+                }
+            })
+
             Bus.$on('delete', (fieldId) => {
                 this.removeField(fieldId)
             })

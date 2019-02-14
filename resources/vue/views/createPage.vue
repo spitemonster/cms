@@ -85,6 +85,13 @@
                     if (res.status === 200) {
                         this.$router.push({ name: 'viewPages' })
                     }
+
+                    let growlerData = {
+                        mode: 'success',
+                        message: 'Page successfully created'
+                    }
+
+                    Bus.$emit('growl', growlerData)
                 }).catch((err) => {
 
                 })
@@ -100,6 +107,13 @@
           })
         },
         mounted () {
+            document.addEventListener('keydown', (e) => {
+                if (e.metaKey && e.which == 83) {
+                    e.preventDefault()
+
+                    this.createPage()
+                }
+            })
             Bus.$on('fieldFill', (field) => {
                 let targetField = field.dataset.fieldid
 

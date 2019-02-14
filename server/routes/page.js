@@ -2,6 +2,7 @@ const uuidv4 = require('uuid/v4')
 const express = require(`express`)
 const fs = require(`fs`)
 const rimraf = require(`rimraf`)
+const methods = require('../methods.js')
 
 const Ajv = require('ajv')
 const pageSchema = require('../schema/page.schema.json')
@@ -15,11 +16,9 @@ router.get('/', (req, res) => {
 
     fs.access(`${__dirname}/../../pages/pageIndex.json`, (err) => {
         if (err) {
-            // handle error
-            // this should only happen if the pageIndex.json file doesn't exist
-            // 500 error
-
-            return
+            methods.handleError(err)
+            methods.initialize()
+            return res.status(501).send('Page Index file missing. Reinitializing, please try again.')
         }
 
         let pageIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../pages/pageIndex.json`))
@@ -34,11 +33,9 @@ router.get('/:pageId', (req, res) => {
 
     fs.access(`${__dirname}/../../pages/pageIndex.json`, (err) => {
         if (err) {
-            // handle error
-            // this should only happen if the pageIndex.json file doesn't exist
-            res.status(503).send('There was an error on our end. Please try again.')
-
-            return
+            methods.handleError(err)
+            methods.initialize()
+            return res.status(501).send('Page Index file missing. Reinitializing, please try again.')
         }
 
         let pageIndex = {}
@@ -49,8 +46,8 @@ router.get('/:pageId', (req, res) => {
 
         fs.readFile(`${__dirname}/../../pages/${target.filename}/${target.filename}.json`, (err, data) => {
             if (err) {
-                // handle error
-                res.status(503).send('There was an error on our end. Please try again.')
+                methods.handleError(err)
+                return res.status(501).send('There was an error on our end. Please try again. If this persists, contact the webmaster.')
             }
 
             return res.status(200).json(JSON.parse(data))
@@ -65,11 +62,9 @@ router.get('/:pageId/revision/', (req, res) => {
 
     fs.access(`${__dirname}/../../pages/pageIndex.json`, (err) => {
         if (err) {
-            // handle error
-            // this should only happen if the pageIndex.json file doesn't exist
-            res.status(503).send('There was an error on our end. Please try again.')
-
-            return
+            methods.handleError(err)
+            methods.initialize()
+            return res.status(501).send('Page Index file missing. Reinitializing, please try again.')
         }
 
         let pageIndex = {}
@@ -80,8 +75,8 @@ router.get('/:pageId/revision/', (req, res) => {
 
         fs.readFile(`${__dirname}/../../pages/${target.filename}/${target.filename}.json`, (err, data) => {
             if (err) {
-                // handle error
-                res.status(503).send('There was an error on our end. Please try again.')
+                methods.handleError(err)
+                return res.status(501).send('There was an error on our end. Please try again. If this persists, contact the webmaster.')
             }
 
             let pageData = JSON.parse(data)
@@ -99,11 +94,9 @@ router.get('/:pageId/revision/:revId', (req, res) => {
 
     fs.access(`${__dirname}/../../pages/pageIndex.json`, (err) => {
         if (err) {
-            // handle error
-            // this should only happen if the pageIndex.json file doesn't exist
-            res.status(503).send('There was an error on our end. Please try again.')
-
-            return
+            methods.handleError(err)
+            methods.initialize()
+            return res.status(501).send('Page Index file missing. Reinitializing, please try again.')
         }
 
         let pageIndex = {}
@@ -114,9 +107,9 @@ router.get('/:pageId/revision/:revId', (req, res) => {
 
         fs.readFile(`${__dirname}/../../pages/${target.filename}/${target.filename}-revision-${rid}.json`, (err, data) => {
             if (err) {
-                // handle error
-
-                res.status(503).send('There was an error on our end. Please try again.')
+                methods.handleError(err)
+                methods.initialize()
+                return res.status(503).send('There was an error on our end. Please try again.')
             }
 
             let pageData = JSON.parse(data)
@@ -137,7 +130,7 @@ router.post('/', (req, res) => {
 
     // generate id for new page and add created and upated at fields
     pageData.id = pageMeta.id = uuidv4()
-    pageData.createdBy = pageData.updatedBy = req.session.username
+    pageData.createdBy = pageData.updatedBy = req.session.user.username
     pageData.createdAt = pageMeta.createdAt = pageData.updatedAt = pageMeta.updatedAt = Date.now()
 
     // combine pageData with req.body
@@ -152,7 +145,9 @@ router.post('/', (req, res) => {
 
     fs.readFile(`${__dirname}/../../views/templates/templateIndex.json`, (err, data) => {
         if (err) {
-            // handle error
+            methods.handleError(err)
+            methods.initialize()
+            return res.status(501).send('Template Index file missing. Reinitializing, please try again.')
         }
 
         let templateIndex = JSON.parse(data)
@@ -163,7 +158,9 @@ router.post('/', (req, res) => {
 
         fs.readFile(templateUrl, (err, data) => {
             if (err) {
-                // handle error
+                methods.handleError(err)
+                methods.initialize()
+                return res.status(501).send('Template file missing. Reinitializing, please try again.')
             }
 
             let templateData = JSON.parse(data)
@@ -178,14 +175,15 @@ router.post('/', (req, res) => {
     let valid = ajv.validate(pageSchema, pageData)
 
     if (!valid) {
+        console.log(ajv.errors)
         return res.status(422).send('There was an error formatting your data. Please try again.')
     }
 
     fs.access(`${__dirname}/../../pages/pageIndex.json`, (err) => {
         if (err) {
-            let z = {
-            }
-            fs.writeFileSync(`${__dirname}/../../pages/pageIndex.json`, JSON.stringify(z, undefined, 2), 'utf8')
+            methods.handleError(err)
+            methods.initialize()
+            return res.status(501).send('Page Index file missing. Reinitializing, please try again.')
         }
 
         let pageIndex = JSON.parse(fs.readFileSync(`${__dirname}/../../pages/pageIndex.json`))
@@ -193,7 +191,6 @@ router.post('/', (req, res) => {
 
         fs.writeFileSync(`${__dirname}/../../pages/pageIndex.json`, JSON.stringify(pageIndex, undefined, 2), 'utf8')
         fs.mkdirSync(`${__dirname}/../../pages/${pageData.filename}`)
-        // fs.writeFileSync(`${__dirname}/../../views/templates/templateIndex.json`, JSON.stringify(templateIndex, undefined, 2), 'utf8')
         fs.writeFileSync(`${__dirname}/../../pages/${pageData.filename}/${pageData.filename}.json`, JSON.stringify(pageData, undefined, 2), 'utf8')
     })
 
@@ -228,7 +225,7 @@ router.patch('/:pageId', (req, res) => {
     targetPage.revisionId = revId
 
     // update 'updated at' of both index data and page data
-    newData.updatedBy = r.updatedBy = req.session.username
+    newData.updatedBy = r.updatedBy = req.session.user.username
     newData.updatedAt = pageIndex[t].updatedAt = r.createdAt = Date.now()
     r.name = newData.name
 
@@ -258,7 +255,9 @@ router.delete('/:pageId', (req, res) => {
     // delete reference to deleted page from template index and template files
     fs.readFile(`${__dirname}/../../views/templates/templateIndex.json`, (err, data) => {
         if (err) {
-            // handle err
+            methods.handleError(err)
+            methods.initialize()
+            return res.status(501).send('Template file missing. Reinitializing, please try again.')
         }
 
         let templateIndex = JSON.parse(data)

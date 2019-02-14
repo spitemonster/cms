@@ -16,14 +16,22 @@ function verifyUser(userId) {
     return true
 }
 
-function findUserIdByUsername(username) {
+function getUserData(username) {
     let b = Buffer.from(fs.readFileSync(`${__dirname}/../private/users.json`))
-
+    let userData = {}
     for (let user in JSON.parse(b)) {
         if (username === JSON.parse(b)[user]['username']) {
-            return JSON.parse(b)[user]['id']
+            userData.username = username
+            userData.firstName = JSON.parse(b)[user]['firstName']
+            userData.lastName = JSON.parse(b)[user]['lastName']
+            userData.id = JSON.parse(b)[user]['id']
+
+            break
         }
     }
+
+    b.fill(0)
+    return userData
 }
 
 function findPasswordByUsername(username) {
@@ -33,30 +41,95 @@ function findPasswordByUsername(username) {
         let u = JSON.parse(b)[user]
 
         if (u.username === username) {
+            b.fill(0)
             return u.password
         }
     }
 }
 
-// something similar with this. i'm uncertain about loading the entire user into the user variable but
-// i also don't know enough about it at this point to say whether it makes a difference
-// still emptying the buffer of data regardless
 function verifyPassword(username, password, req, res) {
     bcrypt.compare(password, findPasswordByUsername(username), (err, ver) => {
         if (err) {
-            console.log('wrong')
-            console.log(err)
+            handleError(err)
         }
-        req.session.user_id = findUserIdByUsername(username)
-        req.session.username = username
+        let userData = getUserData(username)
+
+        req.session.user = userData
         res.status(200).redirect('/admin')
     })
 }
 
-function handleErrors (err) {
-    console.log('There was an error')
+function handleError (err) {
+    let date = Date(Date.now()).toString()
+    let error = ''
+    error += '<------------------------------>\r\n'
+    error += date + '\r\n'
+    error += err + '\r\n'
+
+    fs.stat(`./logs/err.log`, (err, stats) => {
+        if (err) {
+            if (err) { handleError(err); return console.log('Error writing to error log') }
+        }
+
+        if (stats.size > 10000) {
+            return fs.writeFile(`./server/logs/err.log`, error, (err) => {
+                if (err) { handleError(err); return console.log('Error writing to error log') }
+            })
+        }
+
+        fs.appendFile('./server/logs/err.log', error, (err) => {
+            if (err) { handleError(err); return console.log('Error writing to error log') }
+        })
+
+    })
 }
 
-module.exports.handleErrors = handleErrors
+function initialize() {
+    // list necessary files and directories
+    let paths = [
+        `${__dirname}/logs`,
+        `${__dirname}/../views/templates`,
+        `${__dirname}/../pages`
+    ]
+
+    let files = [
+        `${__dirname}/logs/err.log`,
+        `${__dirname}/../views/templates/templateIndex.json`,
+        `${__dirname}/../pages/pageIndex.json`,
+        `${__dirname}/../private/users.json`,
+    ]
+
+    // test both directories and files
+    paths.forEach((dirPath) => {
+        testDir(dirPath)
+    })
+
+    files.forEach((filePath) => {
+        testFile(filePath)
+    })
+}
+
+function testDir(path) {
+    fs.access(path, (err) => {
+        if (err) {
+            return fs.mkdirSync(path)
+        }
+
+        return
+    })
+}
+
+function testFile(path) {
+    fs.access(path, (err) => {
+        if (err) {
+            return fs.writeFileSync(path)
+        }
+
+        return
+    })
+}
+
+module.exports.initialize = initialize
+module.exports.handleErrors = handleError
 module.exports.verifyUser = verifyUser
 module.exports.verifyPassword = verifyPassword

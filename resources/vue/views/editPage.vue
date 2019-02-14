@@ -12,8 +12,8 @@
                         :key="field.id"
                         :content="field.content"></inputField>
 
-        <select name="revisions" @change="loadRevision">
-            <option v-for="revision in revisions" :value="revision.id">{{ revision.name }} - {{ revision.createdAt }}</option>
+        <select v-if="hasRevisions" name="revisions" @change="loadRevision">
+            <option v-for="revision in revisions.slice().reverse()" :value="revision.id">{{ revision.name }} - {{ revision.createdAt }} - {{ revision.updatedBy }}</option>
         </select>
 
         <button @click="savePage">Save Page</button>
@@ -36,13 +36,22 @@ export default {
         }
     },
     props: [],
+    computed: {
+        hasRevisions() {
+            if (typeof this.revisions === "undefined" || this.revisions.length === 0) {
+                return false
+            }
+
+            return true
+        }
+    },
     methods: {
         loadRevision (e) {
             axios.get(`/page/${this.$route.params.page_id}/revision/${e.target.value}`)
-            .then((data) => {
-                this.fields = data.data.fields
-                this.name = data.data.name
-                this.url = data.data.url
+            .then((revision) => {
+                this.fields = revision.data.fields
+                this.name = revision.data.name
+                this.url = revision.data.url
             }).catch((err) => {
                 console.log(err)
             })
@@ -57,7 +66,14 @@ export default {
 
             axios.patch(`/page/${this.$route.params.page_id}`, pageData, headers)
             .then((res) => {
+                let growlerData = {
+                    mode: 'success',
+                    message: 'Page successfully updated'
+                }
+
                 this.$router.push({ name: 'admin' })
+
+                Bus.$emit('growl', growlerData)
             })
         }
     },
@@ -74,6 +90,14 @@ export default {
             })
     },
     mounted() {
+        document.addEventListener('keydown', (e) => {
+            if (e.metaKey && e.which == 83) {
+                e.preventDefault()
+
+                this.savePage()
+            }
+        })
+
         Bus.$on('fieldFill', (field) => {
             let targetField = field.dataset.fieldid
 

@@ -1,0 +1,28 @@
+{
+  "id": "b9c76500-11d1-4c1d-a875-8076849803c9",
+  "updatedBy": "kjohnston",
+  "createdBy": "kjohnston",
+  "updatedAt": 1550179611534,
+  "createdAt": 1550179611534,
+  "name": "About",
+  "url": "/about",
+  "templateUrl": "/Users/kirbyjohnston/sites/cms/server/routes/../../views/templates/home/home.hbs",
+  "templateId": "f71d95a6-c756-4819-888c-e41aec565862",
+  "fields": [
+    {
+      "id": "a0e8ac34-d828-49b0-acac-35626173ff96",
+      "name": "Title",
+      "type": "text",
+      "required": true,
+      "content": "About"
+    },
+    {
+      "id": "a957a58e-f819-475b-877d-1c432182e070",
+      "name": "Body",
+      "type": "wysiwyg",
+      "required": true,
+      "content": "<p>About</p>"
+    }
+  ],
+  "filename": "about"
+}
